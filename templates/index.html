@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Arimoda - Tendencias A♥M</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-cream: #fbf8f3;
+            --brand-blue: #008be3;
+            --brand-red: #e60023;
+            --brand-pink: #e91e63;
+            --card-bg: #ffffff;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --border-light: #f0e6da;
+            --shadow: 0 4px 15px rgba(0, 139, 227, 0.08);
+            --whatsapp-green: #25d366;
+            --tiktok-black: #010101;
+            --facebook-blue: #1877f2;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 110px;
+        }
+
+        /* HEADER */
+        header {
+            background: #ffffff;
+            text-align: center;
+            padding: 1.5rem 1rem 1.2rem;
+            border-bottom: 2px solid var(--border-light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--brand-blue);
+            line-height: 1;
+        }
+
+        .brand-title span.i-heart { color: var(--text-dark); }
+        .heart-icon { color: var(--brand-red); display: inline-block; }
+
+        .brand-subtitle {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--brand-pink);
+            letter-spacing: 2px;
+            margin-top: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        /* REDES SOCIALES */
+        .social-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 0.8rem;
+        }
+
+        .btn-social {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-social:active { transform: scale(0.95); }
+        .btn-tiktok { background-color: var(--tiktok-black); }
+        .btn-facebook { background-color: var(--facebook-blue); }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1100px;
+            margin: 1.2rem auto 2rem;
+            padding: 0 0.8rem;
+        }
+
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.2rem;
+        }
+
+        /* TARJETAS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card.agotado-total {
+            opacity: 0.65;
+            filter: grayscale(0.3);
+        }
+
+        .card-main-content {
+            display: flex;
+            position: relative;
+            background-color: var(--bg-cream);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            flex: 1.3;
+            padding-top: 110%;
+            overflow: hidden;
+        }
+
+        .card-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .color-sidebar-text {
+            flex: 0.9;
+            background: #faf6f0;
+            border-left: 1px solid var(--border-light);
+            padding: 0.6rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            overflow-y: auto;
+            max-height: 240px;
+        }
+
+        .color-sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--brand-pink);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.1rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.2rem;
+        }
+
+        .color-row-item {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.25rem 0.4rem;
+            background: #ffffff;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+        }
+
+        .color-row-item.sin-stock {
+            opacity: 0.4;
+            background: #eee;
+            text-decoration: line-through;
+        }
+
+        .stock-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: var(--brand-blue);
+            background: var(--bg-cream);
+            padding: 0.1rem 0.35rem;
+            border-radius: 8px;
+        }
+
+        .badge-agotado-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(230, 0, 35, 0.9);
+            color: white;
+            font-weight: 800;
+            font-size: 0.9rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        .card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.2rem;
+            line-height: 1.2;
+        }
+
+        .card-detalles {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .selector-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            background: var(--bg-cream);
+            padding: 0.5rem 0.7rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .select-custom {
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: var(--brand-blue);
+            font-weight: 700;
+            background: #ffffff;
+            outline: none;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.6rem;
+            border-top: 1px dashed var(--border-light);
+            margin-top: auto;
+        }
+
+        .precio {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--brand-red);
+        }
+
+        .btn-add {
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            border: none;
+            padding: 0.55rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-add:active { transform: scale(0.96); }
+        .btn-add:disabled { background-color: #ccc; }
+
+        /* BARRA FLOTANTE DE CARRITO */
+        .cart-bar {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 500px;
+            background: #ffffff;
+            border: 2px solid var(--brand-blue);
+            border-radius: 25px;
+            padding: 0.6rem 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        .cart-info { display: flex; flex-direction: column; }
+        .cart-count { font-weight: 700; font-size: 0.85rem; color: var(--brand-blue); }
+        .cart-total { font-weight: 800; font-size: 1rem; color: var(--brand-red); }
+
+        .btn-send-whatsapp {
+            background-color: var(--whatsapp-green);
+            color: white;
+            border: none;
+            padding: 0.55rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* VENTANA EMERGENTE (MODAL) PARA DATOS */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--brand-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .modal-subtitle {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--text-dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.65rem 0.8rem;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            outline: none;
+            background: var(--bg-cream);
+        }
+
+        .form-input:focus {
+            border-color: var(--brand-blue);
+            background: #ffffff;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.2rem;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            background: #eee;
+            color: var(--text-dark);
+            border: none;
+            padding: 0.65rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .btn-modal-confirm {
+            flex: 2;
+            background: var(--whatsapp-green);
+            color: white;
+            border: none;
+            padding: 0.65rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .loading, .no-products {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-muted);
+            padding: 3rem 1rem;
+            grid-column: 1 / -1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            background: #ffffff;
+            border-top: 1px solid var(--border-light);
+        }
+
+        @media (max-width: 480px) {
+            .brand-title { font-size: 1.8rem; }
+            .grid-productos { grid-template-columns: 1fr; }
+            .color-sidebar-text { max-height: 200px; }
+        }
+    </style>
+</head>
+<body>
+<header>
+        <div class="brand-title">
+            <span class="i-heart">I</span><span class="heart-icon">♥</span>ARIMODA
+        </div>
+        <div class="brand-subtitle">TENDENCIAS A♥M</div>
+
+        <div class="social-bar">
+            <a href="https://www.tiktok.com/@arimoda_tendencias?_r=1&_t=ZS-9AyUuf99wo8" target="_blank" class="btn-social btn-tiktok">
+                🎵 TikTok
+            </a>
+            <a href="https://www.facebook.com/share/1AEnVF3qYn/" target="_blank" class="btn-social btn-facebook">
+                📘 Facebook
+            </a>
+        </div>
+    </header>
+
+    <!-- BANNER SUPERIOR DEBAJO DEL HEADER -->
+    <div style="background: var(--brand-pink); color: white; text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;">
+        📦 Envíos a todo el Perú y más. | 💖 Garantía de calidad en cada prenda
+    </div>
+    </header>
+
+    <div class="container">
+        <div style="margin-bottom: 1.2rem; text-align: center;">
+            <input type="text" id="buscador" class="form-input" 
+                   placeholder="🔍 Buscar por nombre o tela" 
+                   onkeyup="filtrarProductos()" 
+                   style="max-width: 500px; margin: 0 auto; padding: 0.8rem 1rem; border-radius: 25px; border: 2px solid var(--border-light); font-size: 0.9rem; width: 100%;">
+        </div>
+        <div id="contenedor-productos" class="grid-productos">
+            <div class="loading">Cargando las blusas de Arimoda...</div>
+        </div>
+    </div>
+
+    
+<!-- BARRA Y PANEL INFERIOR UNIFICADO -->
+
+<!-- BARRA Y PANEL INFERIOR UNIFICADO -->
+<div id="cartBar" class="cart-bar" style="display: none; position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; background: #ffffff; border: 2px solid #e91e63; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); z-index: 999; flex-direction: column; overflow: hidden;">
+    
+    <!-- DETALLE DE PRODUCTOS CON BOTÓN PARA ELIMINAR 🗑️ -->
+    <div id="lista-carrito" style="max-height: 180px; overflow-y: auto; padding: 10px 15px; border-bottom: 1px solid #eee; background: #fafafa;">
+        <!-- Se llena dinámicamente con las prendas agregadas -->
+    </div>
+
+    <!-- PIE DE BARRA CON TOTAL Y BOTÓN DE WHATSAPP -->
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: #fff; gap: 10px;">
+        <div>
+            <span id="cartCount" style="font-weight: bold; color: #e91e63; display: block; font-size: 0.85rem;">0 prenda(s)</span>
+            <span id="cartTotal" style="font-weight: bold; color: #333; font-size: 1rem;">Total: S/ 0.00</span>
+        </div>
+        
+        <button onclick="abrirModalDatos()" style="background: #25d366; color: white; border: none; padding: 10px 14px; border-radius: 20px; font-weight: bold; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            Pedir por WhatsApp 📱
+        </button>
+    </div>
+</div>
+    <!-- MODAL DE DATOS DEL CLIENTE -->
+    <div class="modal-overlay" id="modalDatos">
+        <div class="modal-content">
+            <div class="modal-title">Datos para tu pedido 🛍️</div>
+            <div class="modal-subtitle">Ingresa tus datos para completar la consulta por WhatsApp.</div>
+
+            <div class="form-group">
+                <label for="clienteNombre">Nombre completo *</label>
+                <input type="text" id="clienteNombre" class="form-input" placeholder="Ej: María López">
+            </div>
+
+            <div class="form-group">
+                <label for="clienteDireccion">Dirección y Ciudad / Distrito *</label>
+                <input type="text" id="clienteDireccion" class="form-input" placeholder="Ej: Av. Balta 123 - Chiclayo">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="cerrarModalDatos()">Cancelar</button>
+                <button class="btn-modal-confirm" onclick="enviarPedidoWhatsApp()">Enviar WhatsApp 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; Arimoda - Tendencias A♥M</p>
+    </footer>
+
+    <script>
+        let carrito = [];
+        let productosCache = [];
+
+        function parsearVariantesColorYTalla(texto) {
+            if (!texto || texto.trim() === '') return [];
+
+            const bloquesColor = texto.split(',');
+            return bloquesColor.map(bloque => {
+                bloque = bloque.trim();
+                if (bloque.includes(':')) {
+                    const [nombreColor, tallasString] = bloque.split(':');
+                    const tallasMap = {};
+                    
+                    const matches = tallasString.matchAll(/([a-zA-Z0-9áéíóúÁÉÍÓÚ]+)\((\d+)\)/g);
+                    for (const match of matches) {
+                        tallasMap[match[1].trim().toUpperCase()] = parseInt(match[2], 10);
+                    }
+
+                    return {
+                        nombre: nombreColor.trim(),
+                        tallas: tallasMap,
+                        esMultitalla: true
+                    };
+                } else {
+                    const match = bloque.match(/(.*?)\((\d+)\)/);
+                    if (match) {
+                        return {
+                            nombre: match[1].trim(),
+                            stockGlobal: parseInt(match[2].trim(), 10),
+                            esMultitalla: false
+                        };
+                    } else {
+                        return {
+                            nombre: bloque.trim(),
+                            stockGlobal: 1,
+                            esMultitalla: false
+                        };
+                    }
+                }
+            });
+        }
+
+        function renderizarColoresPorTalla(index, tallaSeleccionada) {
+            const prod = productosCache[index];
+            const listaVariantes = parsearVariantesColorYTalla(prod.COLOR);
+            const contenedorSidebar = document.getElementById(`sidebar-colores-${index}`);
+            if (!contenedorSidebar) return;
+
+            let htmlColoresText = '<div class="color-sidebar-title">Colores:</div>';
+            let stockTotalParaTalla = 0;
+
+            if (listaVariantes.length > 0) {
+                listaVariantes.forEach(variante => {
+                    let stock = 0;
+                    if (variante.esMultitalla) {
+                        const tallaKey = tallaSeleccionada.trim().toUpperCase();
+                        stock = variante.tallas[tallaKey] !== undefined ? variante.tallas[tallaKey] : 0;
+                    } else {
+                        stock = variante.stockGlobal;
+                    }
+
+                    stockTotalParaTalla += stock;
+                    const sinStock = stock === 0;
+                    
+                    // AVISO VISUAL DE STOCK BAJO (5 o menos unidades)
+                    let badgeStock = `<span class="stock-badge">(${stock})</span>`;
+                    if (stock > 0 && stock <= 5) {
+                        badgeStock = `<span class="stock-badge stock-bajo" style="background:#fff3cd; color:#856404; border:1px solid #ffeeba;">⚡ ¡Quedan ${stock}!</span>`;
+                    }
+
+                    htmlColoresText += `
+                        <div class="color-row-item ${sinStock ? 'sin-stock' : ''}">
+                            <span>${variante.nombre}</span>
+                            ${sinStock ? '<span class="stock-badge" style="color:#888;">(0)</span>' : badgeStock}
+                        </div>
+                    `;
+                });
+            } else {
+                htmlColoresText += '<div class="color-row-item"><span>Estándar</span></div>';
+                stockTotalParaTalla = 1;
+            }
+
+            contenedorSidebar.innerHTML = htmlColoresText;
+
+            const btnAdd = document.getElementById(`btn-add-${index}`);
+            if (btnAdd) {
+                if (stockTotalParaTalla === 0) {
+                    btnAdd.disabled = true;
+                    btnAdd.textContent = 'Agotado (' + tallaSeleccionada + ')';
+                } else {
+                    btnAdd.disabled = false;
+                    btnAdd.textContent = '+ Añadir';
+                }
+            }
+        }
+
+        async function cargarProductos() {
+            try {
+                const respuesta = await fetch('/api/productos');
+                const datos = await respuesta.json();
+
+                const contenedor = document.getElementById('contenedor-productos');
+                contenedor.innerHTML = '';
+
+                if (datos.status === 'success' && datos.productos.length > 0) {
+                    productosCache = datos.productos;
+
+                    datos.productos.forEach((prod, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+
+                        const urlImagen = prod.URL_IMAGEN && prod.URL_IMAGEN.trim() !== '' 
+                            ? prod.URL_IMAGEN 
+                            : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+
+                        const listaTallas = prod.TALLAS ? prod.TALLAS.split(',').map(t => t.trim()) : ['Única'];
+                        const opcionesTalla = listaTallas.map(t => `<option value="${t}">${t}</option>`).join('');
+
+                        const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : 'SI';
+                        const estaAgotado = stockGlobalFlag === 'NO';
+
+                        if (estaAgotado) {
+                            card.classList.add('agotado-total');
+                        }
+
+                        card.innerHTML = `
+                            <div class="card-main-content">
+                                <div class="card-img-wrapper">
+                                    <img src="${urlImagen}" alt="${prod.NOMBRE}" class="card-img" loading="lazy">
+                                    ${estaAgotado ? '<div class="badge-agotado-overlay">AGOTADO</div>' : ''}
+                                </div>
+                                <div class="color-sidebar-text" id="sidebar-colores-${index}">
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <h2 class="card-title">${prod.NOMBRE || 'Blusa'}</h2>
+                                <p class="card-detalles">${prod.DESCRIPCIÓN || ''}</p>
+
+                                <div class="selector-group">
+                                    <span>Talla:</span>
+                                    <select id="talla-${index}" class="select-custom" ${estaAgotado ? 'disabled' : ''} 
+                                            onchange="renderizarColoresPorTalla(${index}, this.value)">
+                                        ${opcionesTalla}
+                                    </select>
+                                </div>
+
+                                <div class="card-footer">
+                                    <span class="precio">S/ ${prod.PRECIO || '0.00'}</span>
+                                    <button class="btn-add" id="btn-add-${index}" ${estaAgotado ? 'disabled' : ''} 
+                                            onclick="agregarAlPedido(${index})">
+                                        + Añadir
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        contenedor.appendChild(card);
+
+                        renderizarColoresPorTalla(index, listaTallas[0]);
+                    });
+                } else {
+                    contenedor.innerHTML = '<div class="no-products">No hay blusas disponibles en este momento.</div>';
+                }
+            } catch (error) {
+                console.error("Error al cargar productos:", error);
+                document.getElementById('contenedor-productos').innerHTML = '<div class="no-products">Error al conectar con el catálogo.</div>';
+            }
+        }
+
+        function agregarAlPedido(index) {
+          const prod = productosCache[index];
+    const tallaSeleccionada = document.getElementById(`talla-${index}`).value;
+
+    // Verificar si el producto con la misma talla ya existe en el carrito
+    const existente = carrito.find(item => item.NOMBRE === prod.NOMBRE && item.talla === tallaSeleccionada);
+
+    if (existente) {
+        existente.cantidad = (existente.cantidad || 1) + 1;
+    } else {
+        carrito.push({
+            NOMBRE: prod.NOMBRE,
+            PRECIO: prod.PRECIO,
+            talla: tallaSeleccionada,
+            coloresTexto: prod.COLOR || 'A consultar',
+            cantidad: 1
+        });
+    }
+    
+    actualizarBarraCarrito();  
+        }
+  function cambiarCantidad(index, cambio) {
+    if (carrito[index]) {
+        carrito[index].cantidad = (carrito[index].cantidad || 1) + cambio;
+        if (carrito[index].cantidad <= 0) {
+            carrito.splice(index, 1);
+        }
+    }
+    actualizarBarraCarrito();
+}
+
+function eliminarDelCarrito(index) {
+    carrito.splice(index, 1);
+    actualizarBarraCarrito();
+}
+
+function actualizarBarraCarrito() {
+    const cartBar = document.getElementById('cartBar');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+    const listaCarrito = document.getElementById('lista-carrito');
+
+    const cantidadTotal = carrito.reduce((suma, item) => suma + (item.cantidad || 1), 0);
+    const total = carrito.reduce((suma, item) => suma + (parseFloat(item.PRECIO || 0) * (item.cantidad || 1)), 0);
+
+    if (carrito.length > 0) {
+        if (cartBar) cartBar.style.display = 'flex';
+        if (cartCount) cartCount.textContent = `${cantidadTotal} prenda(s)`;
+        if (cartTotal) cartTotal.textContent = `Total: S/ ${total.toFixed(2)}`;
+
+        if (listaCarrito) {
+            listaCarrito.innerHTML = '';
+            carrito.forEach((item, index) => {
+                const cant = item.cantidad || 1;
+                const subtotal = parseFloat(item.PRECIO || 0) * cant;
+                
+                const div = document.createElement('div');
+                div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed #ddd;';
+                div.innerHTML = `
+                    <div style="flex: 1; text-align: left;">
+                        <strong style="font-size: 0.85rem; color: #333; display: block;">${item.NOMBRE}</strong>
+                        <small style="color: #e91e63;">S/ ${subtotal.toFixed(2)} (${item.talla || 'Única'})</small>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                        <button onclick="cambiarCantidad(${index}, -1)" style="background:#e0e0e0; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-weight:bold;">-</button>
+                        <span style="font-size: 0.85rem; font-weight: bold;">${cant}</span>
+                        <button onclick="cambiarCantidad(${index}, 1)" style="background:#e0e0e0; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-weight:bold;">+</button>
+                        <button onclick="eliminarDelCarrito(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size:1.1rem; margin-left:4px;" title="Eliminar">🗑️</button>
+                    </div>
+                `;
+                listaCarrito.appendChild(div);
+            });
+        }
+    } else {
+        if (cartBar) cartBar.style.display = 'none';
+    }
+}
+        /* MANEJO DE MODAL */
+        function abrirModalDatos() {
+            document.getElementById('modalDatos').style.display = 'flex';
+        }
+
+        function cerrarModalDatos() {
+            document.getElementById('modalDatos').style.display = 'none';
+        }
+
+        /* ENVÍO CON DATOS DEL CLIENTE A WHATSAPP */
+       function enviarPedidoWhatsApp() {
+            const nombre = document.getElementById('clienteNombre').value.trim();
+            const direccion = document.getElementById('clienteDireccion').value.trim();
+
+            if (!nombre || !direccion) {
+                alert('Por favor ingresa tu Nombre y Dirección antes de continuar.');
+                return;
+            }
+
+            let mensaje = `Hola Arimoda! 👋 Quisiera realizar el siguiente pedido:\n\n`;
+            mensaje += `👤 *Cliente:* ${nombre}\n`;
+            mensaje += `📍 *Dirección/Ciudad:* ${direccion}\n\n`;
+            mensaje += `🛍️ *Detalle del pedido:*\n`;
+
+            let total = 0;
+            carrito.forEach((prod, idx) => {
+                const precio = parseFloat(prod.PRECIO || 0);
+                total += precio;
+                mensaje += `${idx + 1}. *${prod.NOMBRE}*\n`;
+                mensaje += `   - Talla: ${prod.talla}\n`;
+                mensaje += `   - Colores en catálogo: ${prod.coloresTexto}\n`;
+                mensaje += `   - Precio: S/ ${precio.toFixed(2)}\n\n`;
+            });
+
+            mensaje += `*Total estimado:* S/ ${total.toFixed(2)}\n\n`;
+            mensaje += `¿Me confirman disponibilidad de colores para coordinar el pago y envío? 💖`;
+
+            const url = `https://wa.me/51923705687?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+            cerrarModalDatos();
+        }
+      function filtrarProductos() {
+    const textoBusqueda = document.getElementById('buscador').value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const tarjetas = document.querySelectorAll('.card');
+    let encontrados = 0;
+
+    productosCache.forEach((prod, index) => {
+        const nombre = (prod.NOMBRE || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const descripcion = (prod.DESCRIPCION || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        if (nombre.includes(textoBusqueda) || descripcion.includes(textoBusqueda)) {
+            tarjetas[index].style.display = 'flex';
+            encontrados++;
+        } else {
+            tarjetas[index].style.display = 'none';
+        }
+    });
+
+    // Mensaje dinámico cuando no hay coincidencias
+    let msgSinResultados = document.getElementById('no-resultados-msg');
+    if (encontrados === 0) {
+        if (!msgSinResultados) {
+            msgSinResultados = document.createElement('div');
+            msgSinResultados.id = 'no-resultados-msg';
+            msgSinResultados.style.padding = '2rem 1rem';
+            msgSinResultados.style.fontWeight = '600';
+            msgSinResultados.style.textAlign = 'center';
+            msgSinResultados.style.color = 'var(--text-dark)';
+            msgSinResultados.style.gridColumn = '1 / -1';
+            msgSinResultados.innerHTML = 'Lo sentimos, no contamos con ese producto, pero eche un vistazo a todo lo que tenemos para usted 💖';
+            document.getElementById('contenedor-productos').appendChild(msgSinResultados);
+        } else {
+            msgSinResultados.style.display = 'block';
+        }
+    } else {
+        if (msgSinResultados) {
+            msgSinResultados.style.display = 'none';
+        }
+    }
+}
+
+        cargarProductos();
+        </script>
+        <a href="https://wa.me/51923705687?text=Hola%20Arimoda!%20Tengo%20una%20consulta" 
+   target="_blank" 
+   style="position: fixed; bottom: 80px; left: 15px; background-color: #25d366; color: white; border-radius: 50px; padding: 0.6rem 1rem; font-weight: 700; font-size: 0.8rem; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 998; display: flex; align-items: center; gap: 6px;">
+    💬 ¿Tiene dudas?
+</a>
+    
+</body>
+</html>

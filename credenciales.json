@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "arimoda-tendencias",
+  "private_key_id": "3fad1623727ab0305a1235933670a53144d7820c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDvLleJoV5hixEM\n6eZFr18R25AjQj8ksaogySrO1iBGYM3tSxW3mtloDJ+VztlPTe+MbEvWU1Qc1Idm\nUvt48plq7oRxtvaEmlnNGAFboEFmwJ/wqtYfMpu+HQbcF8bI9CpAFP0n7msQd3iG\nN5JHl4gHOlMMCag9HvclCQMrtRfDlZ/XGuBVhPCaGejkLe1mUs0o0TIVR4kylAK4\nGKRQ+/1pIcX/dJD9YxUKOrRHoJ2skHh3k6WUqb17FV+GO1gbVCwXbifd/noDrlTT\nGgaWsbcAggGS9MGqRxtxrsVwFl0DFxjDg1T09GjLh1RMae/CTgKL1X41smCcsn/0\n5mNg+NplAgMBAAECggEAQjIXNBYfIuv0KhjKDFs++phDyh5Zj3REW5KRcHE+uXut\nQpFXT1th9DQaLsHyzsoJFFocmxKw4tHHL4Cj7JNn9npQ2ZADpit50xNjvNIbh66k\nFV2SqUu+Yt1xupQyBgfdcaLddaG8q/AEwVC8AWhk02tG9LvvfgsF55AY+o3CJ/TG\nKwzzKMoSNsxBCAw2fU/fRMSmLz+cQ7ZzQUCL/h9W/MvVjJce6tn5QMBH7yLcskEB\njZCIFJxImd0faoMqHxtSjC2wOF3FP/lBqmKFDkdETbPv8itR7lnnRNgH/mgn+h4/\nx2HMIFQqzQRqXDkZy9XntOkzmfCBEZ048Bm2SWx7+QKBgQD8cS5ye+l5BWum/LQP\n8gjKC99oP5gpYqZk3WoxSi8jfW3A4YqG48vRvcl9s+6SP84Lh3R7YfO2NQl+NGGu\nZsWRm3GYYxS089f5GCYQFAY303VEecdwUtzHufKftp4oGo3RQeHK7RTqjN5RtvGR\niQeWRJ7avDcqMq6LHDj15SMnowKBgQDyjVBo6e8XtMT0huPwO4uwyoURnrpcocsi\n9B4hTAZWCZXIa6xIkakLibtbyioSlDn5Vg1NL0pSRf5s8NKDJFkPTIgrsXpjK7D2\nFhIInx6EjcioWWf5YzeM1zgVtogfMnZW+wR8QPIqBhovX2vOarwcsRy3z5NG3pCb\n4ZadLE42VwKBgQC8gxiYTYgv46hcbuFX9voxR2RxyOusHAr9z4p5fFhvPD81hjeY\nO4v8+Kj6wd8qP5NycJi/eoowSrLoF93KCt0Guvm9PmA8MMvbK/lgkFOEZNhxZi9U\n5cwRKf7Q3eKFOC8nUPd4PkscTE3I38DNWXLc+ClYVq0rSeWl5FF07sOt2QKBgQCj\n6sCGxmGggbgBERAGEBfNeHAJgl2rsGPZ0WRzWC+IAZ5J/gpGWLoHZCNMWwmn2Kh9\nSpxepzDw/QB+mxmJKw1M+4mjDaQKVUKYbD3vuakkJ7WNoC5WKakm82OhuOOxQacc\nDTPwzOtbXxhfH3t52kQal88yoYOEh3DvB7uDqKeKrQKBgBHmhCOXsUsnc2aCELtF\nwA6RXTEmf1Jga1aw4Nib1yZYXi+fFBoCEBUqlzN/CmYsqbekIe+TgIUrXZBf8pN2\nLncHy7teULc5QafPhbiilKSuq72oa+OfHtoc7VTGXo85wN6YRcoGLplbhXdIUd69\nMP3q6VTmjK4PEHLQRBIg3nfG\n-----END PRIVATE KEY-----\n",
+  "client_email": "python-sheets-access@arimoda-tendencias.iam.gserviceaccount.com",
+  "client_id": "101969357045118986598",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/python-sheets-access%40arimoda-tendencias.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

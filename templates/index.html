@@ -644,9 +644,15 @@
                             ? prod.URL_IMAGEN 
                             : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 
-                        const listaTallas = prod.TALLAS ? prod.TALLAS.split(',').map(t => t.trim()) : ['Única'];
-                        const opcionesTalla = listaTallas.map(t => `<option value="${t}">${t}</option>`).join('');
+                        // 1. Aseguramos que tome las tallas limpias (L, M, S en lugar de L(24), M(22))
+const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 
+    ? prod.tallas_lista 
+    : (prod.TALLAS ? prod.TALLAS.split(',') : []);
 
+// 2. Generamos las opciones sin el paréntesis
+const opcionesTalla = listaTallas.map(talla => 
+    `<option value="${talla}">${talla}</option>`
+).join('');
                         const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : 'SI';
                         const estaAgotado = stockGlobalFlag === 'NO';
 
@@ -715,15 +721,14 @@ function actualizarPrecioPorTalla(index, tallaSeleccionada) {
         existente.cantidad = (existente.cantidad || 1) + 1;
     } else {
         carrito.push({
-            NOMBRE: prod.NOMBRE,
-            PRECIO: (prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) 
-        ? prod.precios_talla[tallaSeleccionada] 
-        : prod.PRECIO,
-            talla: tallaSeleccionada,
-            coloresTexto: prod.COLOR || 'A consultar',
-            cantidad: 1
-        });
-    }
+    NOMBRE: prod.NOMBRE,
+    PRECIO: (prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) 
+            ? prod.precios_talla[tallaSeleccionada] 
+            : prod.PRECIO,
+    talla: tallaSeleccionada,
+    coloresTexto: prod.COLOR || 'A consultar',
+    cantidad: 1
+});
     
     actualizarBarraCarrito();  
         }

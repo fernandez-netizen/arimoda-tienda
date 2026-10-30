@@ -664,20 +664,16 @@
                                 </div>
                             </div>
 
-                            <div class="card-body">
-                                <h2 class="card-title">${prod.NOMBRE || 'Blusa'}</h2>
-                                <p class="card-detalles">${prod.DESCRIPCIÓN || ''}</p>
-
-                                <div class="selector-group">
-                                    <span>Talla:</span>
-                                    <select id="talla-${index}" class="select-custom" ${estaAgotado ? 'disabled' : ''} 
-                                            onchange="renderizarColoresPorTalla(${index}, this.value)">
-                                        ${opcionesTalla}
-                                    </select>
-                                </div>
+                          <div class="selector-group">
+    <span>Talla:</span>
+    <select id="talla-${index}" class="select-custom" ${estaAgotado ? 'disabled' : ''}
+            onchange="renderizarColoresPorTalla(${index}, this.value); actualizarPrecioPorTalla(${index}, this.value)">
+        ${opcionesTalla}
+    </select>
+</div>
 
                                 <div class="card-footer">
-                                    <span class="precio">S/ ${prod.PRECIO || '0.00'}</span>
+                                 <span class="precio">S/ <span id="precio-${index}">${prod.PRECIO || '0.00'}</span></span>
                                     <button class="btn-add" id="btn-add-${index}" ${estaAgotado ? 'disabled' : ''} 
                                             onclick="agregarAlPedido(${index})">
                                         + Añadir
@@ -688,6 +684,7 @@
                         contenedor.appendChild(card);
 
                         renderizarColoresPorTalla(index, listaTallas[0]);
+                        
                     });
                 } else {
                     contenedor.innerHTML = '<div class="no-products">No hay blusas disponibles en este momento.</div>';
@@ -697,7 +694,16 @@
                 document.getElementById('contenedor-productos').innerHTML = '<div class="no-products">Error al conectar con el catálogo.</div>';
             }
         }
-
+function actualizarPrecioPorTalla(index, tallaSeleccionada) {
+    const prod = productosCache[index];
+    const elPrecio = document.getElementById(`precio-${index}`);
+    
+    if (prod && prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) {
+        elPrecio.textContent = parseFloat(prod.precios_talla[tallaSeleccionada]).toFixed(2);
+    } else if (prod && prod.PRECIO) {
+        elPrecio.textContent = parseFloat(prod.PRECIO).toFixed(2);
+    }
+}
         function agregarAlPedido(index) {
           const prod = productosCache[index];
     const tallaSeleccionada = document.getElementById(`talla-${index}`).value;
@@ -710,7 +716,9 @@
     } else {
         carrito.push({
             NOMBRE: prod.NOMBRE,
-            PRECIO: prod.PRECIO,
+            PRECIO: (prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) 
+        ? prod.precios_talla[tallaSeleccionada] 
+        : prod.PRECIO,
             talla: tallaSeleccionada,
             coloresTexto: prod.COLOR || 'A consultar',
             cantidad: 1

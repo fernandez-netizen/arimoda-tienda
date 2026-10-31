@@ -6,46 +6,51 @@ import requests
 
 app = Flask(__name__)
 
-SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQsVyRa9IeaRLCbkeaCGcGL_lOfDbv5kp7SiJNDfIl6mrz5Kz-VaH7LdejqqDop6h1kIE44XNGDMnvE/pub?output=csv"
+# URL del CSV publicado de tu Google Sheets
+SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4g6V4e2s2x8bK9W0J0R7g9J6Q0y5L-9W0e2s2x8bK9W0/pub?output=csv"
+
 
 def procesar_tallas_precios(cadena_tallas):
-    """
-    Parsea cadenas tipo "L(24),M(22),S(20)"
-    Retorna: (lista_tallas_limpias, dict_precios, precio_inicial)
+    """Parsea una cadena como 'S(24),M(22),L(20)' y extrae:
+
+    - Lista de tallas limpias: ['S', 'M', 'L']
+    - Diccionario de precios: {'S': 24.0, 'M': 22.0, 'L': 20.0}
+    - Precio inicial por defecto (el de la primera talla)
     """
     if not cadena_tallas:
-        return [], {}, "0.00"
+        return [], {}, 0.0
 
-    tallas_list = []
+    tallas_lista = []
     precios_dict = {}
 
-    items = str(cadena_tallas).split(",")
+    # Busca patrones tipo TALLA(PRECIO), ej: S(24.50) o M(22)
+    items = cadena_tallas.split(",")
     for item in items:
         item = item.strip()
-        if not item:
-            continue
+        coincidencia = re.match(r"^([^\(]+)(?:\(([\d\.]+)\))?$", item)
+        if coincidencia:
+            talla = coincidencia.group(1).strip()
+            precio_str = coincidencia.group(2)
 
-        match = re.search(r"([A-Za-z0-9]+)\s*\(([\d.]+)\)", item)
-        if match:
-            talla = match.group(1).upper()
-            precio = float(match.group(2))
-            tallas_list.append(talla)
-            precios_dict[talla] = precio
-        else:
-            talla_simple = item.upper()
-            tallas_list.append(talla_simple)
-            precios_dict[talla_simple] = 0.0
+            if talla:
+                tallas_lista.append(talla)
+                if precio_str:
+                    try:
+                        precios_dict[talla] = float(precio_str)
+                    except ValueError:
+                        precios_dict[talla] = 0.0
+                else:
+                    precios_dict[talla] = 0.0
 
-    # Determina el precio por defecto (el de la primera talla en la lista)
-    precio_inicial = "0.00"
-    if tallas_list and tallas_list[0] in precios_dict:
-        precio_inicial = f"{precios_dict[tallas_list[0]]:.2f}"
+    precio_inicial = 0.0
+    if tallas_lista and tallas_lista[0] in precios_dict:
+        precio_inicial = precios_dict[tallas_lista[0]]
 
-    return tallas_list, precios_dict, precio_inicial
+    return tallas_lista, precios_dict, precio_inicial
 
 
 @app.route("/")
-def home():
+def index():
     return render_template("index.html")
 
 
@@ -60,26 +65,38 @@ def obtener_productos():
 
         productos = []
         for fila in lector:
+            # Limpia encabezados y valores de espacios adicionales
             fila_limpia = {
                 k.strip().upper(): v.strip() for k, v in fila.items() if k
             }
 
             if fila_limpia.get("NOMBRE"):
                 cadena_tallas = fila_limpia.get("TALLAS", "")
-                
-                tallas_lista, precios_talla_dict, precio_inicial = procesar_tallas_precios(cadena_tallas)
+
+                tallas_lista, precios_talla_dict, precio_inicial = (
+                    procesar_tallas_precios(cadena_tallas)
+                )
+
+                # Acepta tanto ESTOCK como STOCK en Google Sheets
+                val_stock = (
+                    fila_limpia.get("ESTOCK")
+                    or fila_limpia.get("STOCK")
+                    or "SI"
+                )
 
                 productos.append({
                     "ID": fila_limpia.get("ID", ""),
                     "NOMBRE": fila_limpia.get("NOMBRE", ""),
-                    "DESCRIPCIÓN": fila_limpia.get("DESCRIPCIÓN", fila_limpia.get("DESCRIPCION", "")),
-                    "PRECIO": precio_inicial,  # Precio de la primera talla por defecto
+                    "DESCRIPCIÓN": fila_limpia.get(
+                        "DESCRIPCIÓN", fila_limpia.get("DESCRIPCION", "")
+                    ),
+                    "PRECIO": precio_inicial,
                     "URL_IMAGEN": fila_limpia.get("URL_IMAGEN", ""),
-                    "TALLAS": ",".join(tallas_lista),  # Tallas limpias: "L,M,S"
+                    "TALLAS": ",".join(tallas_lista),
                     "tallas_lista": tallas_lista,
                     "precios_talla": precios_talla_dict,
                     "COLOR": fila_limpia.get("COLOR", ""),
-                    "ESTOCK": fila_limpia.get("ESTOCK", "SI"),
+                    "ESTOCK": val_stock,
                 })
 
         return jsonify({"status": "success", "productos": productos})

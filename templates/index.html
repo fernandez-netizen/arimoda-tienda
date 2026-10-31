@@ -684,26 +684,25 @@
                         const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : (prod.STOCK ? prod.STOCK.trim().toUpperCase() : 'SI');
                         const estaAgotado = stockGlobalFlag === 'NO';
                         card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
-// 1. Detectar el campo de la URL
+// 1. Obtener el enlace de la celda de Google Sheets
 let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
 urlImagen = urlImagen.trim();
 
-// 2. Procesar imágenes de ImgBB
-if (urlImagen.includes('ibb.co/')) {
-    // Si es un enlace directo puro de ImgBB (i.ibb.co), se usa directamente
-    if (urlImagen.includes('i.ibb.co/')) {
-        // Enlace directo válido
-    } else {
-        // Si pegaste un enlace de página de ImgBB (ibb.co/...), usamos el proxy
-        urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
+// 2. Aplicar Proxy CDN a todas las imágenes externas
+if (urlImagen) {
+    // Si la URL no tiene protocolo, agregar https://
+    if (!urlImagen.startsWith('http://') && !urlImagen.startsWith('https://')) {
+        urlImagen = 'https://' + urlImagen;
     }
-}
-
-// 3. Imagen de respaldo si el campo está vacío
-if (!urlImagen) {
+    
+    // Si es una imagen externa (no alojada en tu propio dominio), la pasamos por el proxy
+    if (!urlImagen.includes('arimoda-tienda.onrender.com')) {
+        urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen) + '&default=https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+    }
+} else {
+    // 3. Imagen por defecto si la celda está vacía
     urlImagen = 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 }
-
                         const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
 
                         const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 

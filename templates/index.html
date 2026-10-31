@@ -624,82 +624,79 @@
                 }
             }
         }
+async function cargarProductos() {
+    try {
+        const respuesta = await fetch('/api/productos');
+        const datos = await respuesta.json();
 
-        async function cargarProductos() {
-            try {
-                const respuesta = await fetch('/api/productos');
-                const datos = await respuesta.json();
+        const contenedor = document.getElementById('contenedor-productos');
+        if (!contenedor) return;
+        contenedor.innerHTML = '';
 
-                const contenedor = document.getElementById('contenedor-productos');
-                contenedor.innerHTML = '';
+        if (datos.status === 'success' && datos.productos && datos.productos.length > 0) {
+            productosCache = datos.productos;
 
-                if (datos.status === 'success' && datos.productos.length > 0) {
-                    productosCache = datos.productos;
+            datos.productos.forEach((prod, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
 
-                    datos.productos.forEach((prod, index) => {
-                        const card = document.createElement('div');
-                        card.className = 'card';
+                const urlImagen = prod.URL_IMAGEN && prod.URL_IMAGEN.trim() !== ''
+                    ? prod.URL_IMAGEN
+                    : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 
-                        const urlImagen = prod.URL_IMAGEN && prod.URL_IMAGEN.trim() !== '' 
-                            ? prod.URL_IMAGEN 
-                            : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+                const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
 
-                        // 1. Aseguramos que tome las tallas limpias (L, M, S en lugar de L(24), M(22))
-const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 
-    ? prod.tallas_lista 
-    : (prod.TALLAS ? prod.TALLAS.split(',') : []);
+                // 1. Obtención de la lista de tallas limpias (ej. ['L', 'M'])
+                const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 
+                    ? prod.tallas_lista 
+                    : (prod.TALLAS ? prod.TALLAS.split(',') : []);
 
-// 2. Generamos las opciones sin el paréntesis
-const opcionesTalla = listaTallas.map(talla => 
-    `<option value="${talla}">${talla}</option>`
-).join('');
-                        const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : 'SI';
-                        const estaAgotado = stockGlobalFlag === 'NO';
+                // 2. Generación del HTML para el select de tallas
+                const opcionesTalla = listaTallas.map(talla => 
+                    `<option value="${talla.trim()}">${talla.trim()}</option>`
+                ).join('');
 
-                        if (estaAgotado) {
-                            card.classList.add('agotado-total');
-                        }
+                // 3. Verificación de stock
+                const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : 'SI';
+                const estaAgotado = stockGlobalFlag === 'NO';
 
-                        card.innerHTML = `
-                            <div class="card-main-content">
-                                <div class="card-img-wrapper">
-                                    <img src="${urlImagen}" alt="${prod.NOMBRE}" class="card-img" loading="lazy">
-                                    ${estaAgotado ? '<div class="badge-agotado-overlay">AGOTADO</div>' : ''}
-                                </div>
-                                <div class="color-sidebar-text" id="sidebar-colores-${index}">
-                                </div>
-                            </div>
+                // 4. Construcción dinámica del contenido de la tarjeta
+                card.innerHTML = `
+                    <img src="${urlImagen}" alt="${prod.NOMBRE}">
+                    <h3>${prod.NOMBRE}</h3>
+                    <p class="descripcion">${descripcion}</p>
+                    <p class="precio">S/ ${parseFloat(prod.PRECIO || 0).toFixed(2)}</p>
+                    
+                    ${listaTallas.length > 0 ? `
+                        <div class="selector-talla">
+                            <label for="talla-${index}">Talla:</label>
+                            <select id="talla-${index}" ${estaAgotado ? 'disabled' : ''}>
+                                ${opcionesTalla}
+                            </select>
+                        </div>
+                    ` : ''}
 
-                          <div class="selector-group">
-    <span>Talla:</span>
-    <select id="talla-${index}" class="select-custom" ${estaAgotado ? 'disabled' : ''}
-            onchange="renderizarColoresPorTalla(${index}, this.value); actualizarPrecioPorTalla(${index}, this.value)">
-        ${opcionesTalla}
-    </select>
-</div>
+                    <div class="estado-stock">
+                        ${estaAgotado 
+                            ? '<span class="agotado" style="color:red; font-weight:bold;">Agotado</span>' 
+                            : '<span class="disponible" style="color:green;">En Stock</span>'}
+                    </div>
+                `;
 
-                                <div class="card-footer">
-                                 <span class="precio">S/ <span id="precio-${index}">${prod.PRECIO || '0.00'}</span></span>
-                                    <button class="btn-add" id="btn-add-${index}" ${estaAgotado ? 'disabled' : ''} 
-                                            onclick="agregarAlPedido(${index})">
-                                        + Añadir
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                        contenedor.appendChild(card);
-
-                        renderizarColoresPorTalla(index, listaTallas[0]);
-                        
-                    });
-                } else {
-                    contenedor.innerHTML = '<div class="no-products">No hay blusas disponibles en este momento.</div>';
-                }
-            } catch (error) {
-                console.error("Error al cargar productos:", error);
-                document.getElementById('contenedor-productos').innerHTML = '<div class="no-products">Error al conectar con el catálogo.</div>';
-            }
+                // 5. Se añade la tarjeta renderizada al contenedor
+                contenedor.appendChild(card);
+            });
+        } else {
+            contenedor.innerHTML = '<p>No hay productos disponibles por el momento.</p>';
         }
+    } catch (error) {
+        console.error('Error al cargar productos:', error);
+        const contenedor = document.getElementById('contenedor-productos');
+        if (contenedor) {
+            contenedor.innerHTML = '<p>Ocurrió un error al cargar el catálogo.</p>';
+        }
+    }
+}
 function actualizarPrecioPorTalla(index, tallaSeleccionada) {
     const prod = productosCache[index];
     const elPrecio = document.getElementById(`precio-${index}`);

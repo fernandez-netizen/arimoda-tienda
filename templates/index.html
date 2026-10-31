@@ -435,12 +435,39 @@
             background: #ffffff;
             border-top: 1px solid var(--border-light);
         }
+@media (max-width: 480px) {
+    .brand-title { font-size: 1.8rem; }
+    .color-sidebar-text { max-height: 200px; }
 
-        @media (max-width: 480px) {
-            .brand-title { font-size: 1.8rem; }
-            .grid-productos { grid-template-columns: 1fr; }
-            .color-sidebar-text { max-height: 200px; }
-        }
+    /* Forzar 3 productos por fila en móviles */
+    .grid-productos {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px !important;
+        padding: 4px !important;
+    }
+
+    /* Ajustar tarjetas e imágenes para vista compacta */
+    .grid-productos .card {
+        padding: 4px !important;
+    }
+
+    .grid-productos .card img {
+        height: 120px !important;
+        object-fit: cover !important;
+    }
+
+    .grid-productos .card h3,
+    .grid-productos .card .titulo {
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+    }
+
+    .grid-productos .card .precio {
+        font-size: 12px !important;
+    }
+}
+        
     </style>
 </head>
 <body>

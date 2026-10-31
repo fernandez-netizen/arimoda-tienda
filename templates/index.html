@@ -108,7 +108,7 @@
 
         .grid-productos {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.2rem;
         }
 
@@ -129,75 +129,19 @@
             filter: grayscale(0.3);
         }
 
-        .card-main-content {
-            display: flex;
+        .card-img-wrapper {
             position: relative;
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
             background-color: var(--bg-cream);
         }
 
-        .card-img-wrapper {
-            position: relative;
-            flex: 1.3;
-            padding-top: 110%;
-            overflow: hidden;
-        }
-
         .card-img {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-        }
-
-        .color-sidebar-text {
-            flex: 0.9;
-            background: #faf6f0;
-            border-left: 1px solid var(--border-light);
-            padding: 0.6rem 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
-            overflow-y: auto;
-            max-height: 240px;
-        }
-
-        .color-sidebar-title {
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--brand-pink);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.1rem;
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 0.2rem;
-        }
-
-        .color-row-item {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.25rem 0.4rem;
-            background: #ffffff;
-            border-radius: 6px;
-            border: 1px solid var(--border-light);
-        }
-
-        .color-row-item.sin-stock {
-            opacity: 0.4;
-            background: #eee;
-            text-decoration: line-through;
-        }
-
-        .stock-badge {
-            font-size: 0.68rem;
-            font-weight: 800;
-            color: var(--brand-blue);
-            background: var(--bg-cream);
-            padding: 0.1rem 0.35rem;
-            border-radius: 8px;
+            cursor: pointer;
         }
 
         .badge-agotado-overlay {
@@ -216,14 +160,14 @@
         }
 
         .card-body {
-            padding: 1rem;
+            padding: 0.8rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .card-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 0.2rem;
@@ -231,34 +175,46 @@
         }
 
         .card-detalles {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             margin-bottom: 0.8rem;
             line-height: 1.3;
         }
 
+        /* CONTENEDOR DE SELECTORES PARALELOS */
+        .selectores-container {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 0.8rem;
+            width: 100%;
+        }
+
         .selector-group {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.8rem;
-            background: var(--bg-cream);
-            padding: 0.5rem 0.7rem;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .selector-group label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--brand-pink);
+            text-transform: uppercase;
+            margin-bottom: 2px;
         }
 
         .select-custom {
-            padding: 0.3rem 0.5rem;
-            border-radius: 6px;
+            width: 100%;
+            padding: 0.4rem 0.5rem;
+            border-radius: 8px;
             border: 1px solid var(--border-light);
             font-family: inherit;
-            font-size: 0.8rem;
-            color: var(--brand-blue);
-            font-weight: 700;
-            background: #ffffff;
+            font-size: 0.78rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            background: #f8f9fa;
             outline: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
 
         .card-footer {
@@ -271,7 +227,7 @@
         }
 
         .precio {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: var(--brand-red);
         }
@@ -280,9 +236,9 @@
             background-color: var(--brand-blue);
             color: #ffffff;
             border: none;
-            padding: 0.55rem 0.9rem;
+            padding: 0.5rem 0.85rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 700;
             cursor: pointer;
         }
@@ -296,36 +252,19 @@
             bottom: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 92%;
+            width: 95%;
             max-width: 500px;
             background: #ffffff;
-            border: 2px solid var(--brand-blue);
-            border-radius: 25px;
-            padding: 0.6rem 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            z-index: 999;
-            cursor: pointer;
-        }
-
-        .cart-info { display: flex; flex-direction: column; }
-        .cart-count { font-weight: 700; font-size: 0.85rem; color: var(--brand-blue); }
-        .cart-total { font-weight: 800; font-size: 1rem; color: var(--brand-red); }
-
-        .btn-send-whatsapp {
-            background-color: var(--whatsapp-green);
-            color: white;
-            border: none;
-            padding: 0.55rem 1rem;
+            border: 2px solid var(--brand-pink);
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        /* VENTANA EMERGENTE (MODAL) PARA DATOS */
+        /* MODAL */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -345,34 +284,12 @@
             width: 100%;
             max-width: 400px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
         }
 
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--brand-blue);
-            margin-bottom: 0.4rem;
-        }
-
-        .modal-subtitle {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin-bottom: 1.2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-            color: var(--text-dark);
-        }
-
+        .modal-title { font-size: 1.2rem; font-weight: 800; color: var(--brand-blue); margin-bottom: 0.4rem; }
+        .modal-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem; }
         .form-input {
             width: 100%;
             padding: 0.65rem 0.8rem;
@@ -384,40 +301,9 @@
             background: var(--bg-cream);
         }
 
-        .form-input:focus {
-            border-color: var(--brand-blue);
-            background: #ffffff;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 1.2rem;
-        }
-
-        .btn-modal-cancel {
-            flex: 1;
-            background: #eee;
-            color: var(--text-dark);
-            border: none;
-            padding: 0.65rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-
-        .btn-modal-confirm {
-            flex: 2;
-            background: var(--whatsapp-green);
-            color: white;
-            border: none;
-            padding: 0.65rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
+        .modal-actions { display: flex; gap: 10px; margin-top: 1.2rem; }
+        .btn-modal-cancel { flex: 1; background: #eee; border: none; padding: 0.65rem; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .btn-modal-confirm { flex: 2; background: var(--whatsapp-green); color: white; border: none; padding: 0.65rem; border-radius: 12px; font-weight: 700; cursor: pointer; }
 
         .loading, .no-products {
             text-align: center;
@@ -435,113 +321,62 @@
             background: #ffffff;
             border-top: 1px solid var(--border-light);
         }
-@media (max-width: 480px) {
-    /* Grilla de 2 columnas para móviles */
-    .grid-productos {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 8px !important;
-        padding: 4px !important;
-    }
 
-    /* Tarjeta limpia enfocada en el producto */
-    .grid-productos .card {
-        padding: 8px !important;
-        box-sizing: border-box !important;
-        display: flex !important;
-        flex-direction: column !important;
-        border-radius: 12px !important;
-    }
+        /* REGLAS MÓVILES OPTIMIZADAS */
+        @media (max-width: 480px) {
+            .grid-productos {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px !important;
+                padding: 4px !important;
+            }
 
-    /* La imagen de la blusa ahora ocupa todo el ancho superior */
-    .grid-productos .card img {
-        width: 100% !important;
-        height: 180px !important;
-        object-fit: cover !important;
-        border-radius: 8px !important;
-        cursor: pointer;
-    }
+            .grid-productos .card {
+                padding: 6px !important;
+                border-radius: 12px !important;
+            }
 
-    /* Título y descripción breve */
-    .grid-productos .card h3,
-    .grid-productos .card .titulo {
-        font-size: 13px !important;
-        font-weight: bold !important;
-        margin: 6px 0 2px 0 !important;
-    }
+            .card-img-wrapper {
+                height: 170px !important;
+            }
 
-    .grid-productos .card p,
-    .grid-productos .card .descripcion {
-        font-size: 10px !important;
-        color: #666 !important;
-        margin-bottom: 8px !important;
-        line-height: 1.2 !important;
-    }
+            .grid-productos .card h3,
+            .grid-productos .card .card-title {
+                font-size: 12px !important;
+                font-weight: bold !important;
+                margin: 4px 0 2px 0 !important;
+            }
 
-    /* Fila inferior para Selectores: Tallas (Izquierda) y Colores (Derecha) */
-    .grid-productos .card .selectores-container {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        gap: 4px !important;
-        margin-bottom: 8px !important;
-        width: 100% !important;
-    }
+            .grid-productos .card p,
+            .grid-productos .card .card-detalles {
+                font-size: 9.5px !important;
+                color: #666 !important;
+                margin-bottom: 6px !important;
+                line-height: 1.2 !important;
+            }
 
-    .grid-productos .card .selector-group {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 48% !important;
-    }
+            .selectores-container {
+                gap: 4px !important;
+                margin-bottom: 6px !important;
+            }
 
-    .grid-productos .card .selector-group label {
-        font-size: 9px !important;
-        font-weight: bold !important;
-        color: #d63384 !important;
-        margin-bottom: 2px !important;
-        text-transform: uppercase !important;
-    }
+            .selector-group label {
+                font-size: 8.5px !important;
+            }
 
-    /* Estilizado estético para las listas desplegables (<select>) */
-    .grid-productos .card select {
-        width: 100% !important;
-        font-size: 10px !important;
-        font-weight: 600 !important;
-        color: #333 !important;
-        padding: 5px 6px !important;
-        background-color: #f8f9fa !important;
-        border: 1px solid #e0e0e0 !important;
-        border-radius: 8px !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
-        outline: none !important;
-        appearance: none !important; /* Quita el diseño genérico por defecto */
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d63384' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
-        background-repeat: no-repeat !important;
-        background-position: right 4px center !important;
-        background-size: 11px !important;
-    }
+            .select-custom {
+                font-size: 9.5px !important;
+                padding: 4px 4px !important;
+            }
 
-    /* Fila de precio y botón añadir */
-    .grid-productos .card .precio-y-boton {
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        margin-top: auto !important;
-    }
+            .precio {
+                font-size: 13px !important;
+            }
 
-    .grid-productos .card .precio {
-        font-size: 14px !important;
-        font-weight: bold !important;
-        color: #e60023 !important;
-    }
-
-    .grid-productos .card .btn-anadir {
-        font-size: 9px !important;
-        padding: 4px 8px !important;
-        border-radius: 12px !important;
-    }
-}
-        
+            .btn-add {
+                font-size: 8.5px !important;
+                padding: 4px 7px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -561,8 +396,7 @@
         </div>
     </header>
 
-    <!-- BANNER SUPERIOR DEBAJO DEL HEADER -->
-    <div style="background: var(--brand-pink); color: white; text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;">
+    <div style="background: var(--brand-pink); color: white; text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 700;">
         📦 Envíos a todo el Perú y más. | 💖 Garantía de calidad en cada prenda
     </div>
 
@@ -579,20 +413,14 @@
     </div>
 
     <!-- BARRA Y PANEL INFERIOR UNIFICADO -->
-    <div id="cartBar" class="cart-bar" style="display: none; position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; background: #ffffff; border: 2px solid #e91e63; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); z-index: 999; flex-direction: column; overflow: hidden;">
-        <!-- DETALLE DE PRODUCTOS CON BOTÓN PARA ELIMINAR 🗑️ -->
-        <div id="lista-carrito" style="max-height: 180px; overflow-y: auto; padding: 10px 15px; border-bottom: 1px solid #eee; background: #fafafa;">
-            <!-- Se llena dinámicamente con las prendas agregadas -->
-        </div>
-
-        <!-- PIE DE BARRA CON TOTAL Y BOTÓN DE WHATSAPP -->
+    <div id="cartBar" class="cart-bar" style="display: none;">
+        <div id="lista-carrito" style="max-height: 180px; overflow-y: auto; padding: 10px 15px; border-bottom: 1px solid #eee; background: #fafafa;"></div>
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: #fff; gap: 10px;">
             <div>
                 <span id="cartCount" style="font-weight: bold; color: #e91e63; display: block; font-size: 0.85rem;">0 prenda(s)</span>
                 <span id="cartTotal" style="font-weight: bold; color: #333; font-size: 1rem;">Total: S/ 0.00</span>
             </div>
-            
-            <button onclick="abrirModalDatos()" style="background: #25d366; color: white; border: none; padding: 10px 14px; border-radius: 20px; font-weight: bold; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <button onclick="abrirModalDatos()" style="background: #25d366; color: white; border: none; padding: 10px 14px; border-radius: 20px; font-weight: bold; font-size: 0.88rem; cursor: pointer;">
                 Pedir por WhatsApp 📱
             </button>
         </div>
@@ -668,13 +496,19 @@
             });
         }
 
-        function renderizarColoresPorTalla(index, tallaSeleccionada) {
+        // Función que actualiza el desplegable de colores y el botón según la talla elegida
+        function actualizarSegunTalla(index) {
             const prod = productosCache[index];
-            const listaVariantes = parsearVariantesColorYTalla(prod.COLOR);
-            const contenedorSidebar = document.getElementById(`sidebar-colores-${index}`);
-            if (!contenedorSidebar) return;
+            const selectTalla = document.getElementById(`talla-${index}`);
+            const tallaSeleccionada = selectTalla ? selectTalla.value : 'ÚNICA';
+            const selectColor = document.getElementById(`color-${index}`);
+            const btnAdd = document.getElementById(`btn-add-${index}`);
 
-            let htmlColoresText = '<div class="color-sidebar-title">Colores:</div>';
+            if (!selectColor) return;
+
+            const listaVariantes = parsearVariantesColorYTalla(prod.COLOR);
+            selectColor.innerHTML = '';
+
             let stockTotalParaTalla = 0;
 
             if (listaVariantes.length > 0) {
@@ -688,32 +522,22 @@
                     }
 
                     stockTotalParaTalla += stock;
-                    const sinStock = stock === 0;
-                    
-                    let badgeStock = `<span class="stock-badge">(${stock})</span>`;
-                    if (stock > 0 && stock <= 5) {
-                        badgeStock = `<span class="stock-badge stock-bajo" style="background:#fff3cd; color:#856404; border:1px solid #ffeeba;">⚡ ¡Quedan ${stock}!</span>`;
-                    }
 
-                    htmlColoresText += `
-                        <div class="color-row-item ${sinStock ? 'sin-stock' : ''}">
-                            <span>${variante.nombre}</span>
-                            ${sinStock ? '<span class="stock-badge" style="color:#888;">(0)</span>' : badgeStock}
-                        </div>
-                    `;
+                    const option = document.createElement('option');
+                    option.value = variante.nombre;
+                    option.textContent = `${variante.nombre} (${stock})`;
+                    if (stock === 0) option.disabled = true;
+                    selectColor.appendChild(option);
                 });
             } else {
-                htmlColoresText += '<div class="color-row-item"><span>Estándar</span></div>';
+                selectColor.innerHTML = '<option value="Estándar">Estándar (1)</option>';
                 stockTotalParaTalla = 1;
             }
 
-            contenedorSidebar.innerHTML = htmlColoresText;
-
-            const btnAdd = document.getElementById(`btn-add-${index}`);
             if (btnAdd) {
                 if (stockTotalParaTalla === 0) {
                     btnAdd.disabled = true;
-                    btnAdd.textContent = 'Agotado (' + tallaSeleccionada + ')';
+                    btnAdd.textContent = 'Agotado';
                 } else {
                     btnAdd.disabled = false;
                     btnAdd.textContent = '+ Añadir';
@@ -721,123 +545,114 @@
             }
         }
 
-       async function cargarProductos() {
-    try {
-        const respuesta = await fetch('/api/productos');
-        const datos = await respuesta.json();
+        async function cargarProductos() {
+            try {
+                const respuesta = await fetch('/api/productos');
+                const datos = await respuesta.json();
 
-        const contenedor = document.getElementById('contenedor-productos');
-        if (!contenedor) return;
-        contenedor.innerHTML = '';
+                const contenedor = document.getElementById('contenedor-productos');
+                if (!contenedor) return;
+                contenedor.innerHTML = '';
 
-        if (datos.status === 'success' && datos.productos && datos.productos.length > 0) {
-            productosCache = datos.productos;
+                if (datos.status === 'success' && datos.productos && datos.productos.length > 0) {
+                    productosCache = datos.productos;
 
-            datos.productos.forEach((prod, index) => {
-                const card = document.createElement('div');
-                
-                const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : (prod.STOCK ? prod.STOCK.trim().toUpperCase() : 'SI');
-                const estaAgotado = stockGlobalFlag === 'NO';
-                card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
-
-                // 1. Obtener la imagen y aplicar el proxy CDN si es de un dominio externo
-                let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
-                urlImagen = urlImagen.trim();
-
-                if (urlImagen) {
-                    if (!urlImagen.startsWith('http://') && !urlImagen.startsWith('https://')) {
-                        urlImagen = 'https://' + urlImagen;
-                    }
-                    if (!urlImagen.includes('arimoda-tienda.onrender.com')) {
-                        urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
-                    }
-                } else {
-                    urlImagen = 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
-                }
-
-                const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
-
-                const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 
-                    ? prod.tallas_lista 
-                    : (prod.TALLAS ? prod.TALLAS.split(',') : []);
-
-                const opcionesTalla = listaTallas.map(talla => 
-                    `<option value="${talla.trim()}">${talla.trim()}</option>`
-                ).join('');
-
-                const precioInicial = prod.PRECIO ? parseFloat(prod.PRECIO).toFixed(2) : "0.00";
-
-                // 2. Plantilla HTML renovada: Imagen arriba a ancho completo y selectores abajo en paralelo
-                card.innerHTML = `
-                    ${estaAgotado ? '<div class="badge-agotado-overlay">Agotado</div>' : ''}
-                    
-                    <div class="card-img-wrapper">
-                        <img src="${urlImagen}" alt="${prod.NOMBRE}" class="card-img" loading="lazy">
-                    </div>
-                    
-                    <div class="card-body">
-                        <h3 class="card-title">${prod.NOMBRE}</h3>
-                        <p class="card-detalles">${descripcion}</p>
+                    datos.productos.forEach((prod, index) => {
+                        const card = document.createElement('div');
                         
-                        <!-- Selectores paralelos (Talla y Color) -->
-                        <div class="selectores-container">
-                            ${listaTallas.length > 0 ? `
-                                <div class="selector-group">
-                                    <label for="talla-${index}">Talla:</label>
-                                    <select id="talla-${index}" class="select-custom" onchange="actualizarSegunTalla(${index})" ${estaAgotado ? 'disabled' : ''}>
-                                        ${opcionesTalla}
-                                    </select>
-                                </div>
-                            ` : ''}
+                        const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : (prod.STOCK ? prod.STOCK.trim().toUpperCase() : 'SI');
+                        const estaAgotado = stockGlobalFlag === 'NO';
+                        card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
 
-                            <div class="selector-group">
-                                <label for="color-${index}">Color:</label>
-                                <select id="color-${index}" class="select-custom" ${estaAgotado ? 'disabled' : ''}>
-                                    <!-- Se llena dinámicamente según la talla -->
-                                </select>
+                        let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
+                        urlImagen = urlImagen.trim();
+
+                        if (urlImagen) {
+                            if (!urlImagen.startsWith('http://') && !urlImagen.startsWith('https://')) {
+                                urlImagen = 'https://' + urlImagen;
+                            }
+                            if (!urlImagen.includes('arimoda-tienda.onrender.com')) {
+                                urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
+                            }
+                        } else {
+                            urlImagen = 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+                        }
+
+                        const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
+
+                        const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 
+                            ? prod.tallas_lista 
+                            : (prod.TALLAS ? prod.TALLAS.split(',') : []);
+
+                        const opcionesTalla = listaTallas.map(talla => 
+                            `<option value="${talla.trim()}">${talla.trim()}</option>`
+                        ).join('');
+
+                        const precioInicial = prod.PRECIO ? parseFloat(prod.PRECIO).toFixed(2) : "0.00";
+
+                        card.innerHTML = `
+                            ${estaAgotado ? '<div class="badge-agotado-overlay">Agotado</div>' : ''}
+                            
+                            <div class="card-img-wrapper">
+                                <img src="${urlImagen}" alt="${prod.NOMBRE}" class="card-img" loading="lazy">
                             </div>
-                        </div>
+                            
+                            <div class="card-body">
+                                <h3 class="card-title">${prod.NOMBRE}</h3>
+                                <p class="card-detalles">${descripcion}</p>
+                                
+                                <div class="selectores-container">
+                                    ${listaTallas.length > 0 ? `
+                                        <div class="selector-group">
+                                            <label for="talla-${index}">Talla:</label>
+                                            <select id="talla-${index}" class="select-custom" onchange="actualizarSegunTalla(${index})" ${estaAgotado ? 'disabled' : ''}>
+                                                ${opcionesTalla}
+                                            </select>
+                                        </div>
+                                    ` : ''}
 
-                        <div class="card-footer">
-                            <div class="precio">S/ <span id="precio-${index}">${precioInicial}</span></div>
-                            <button id="btn-add-${index}" class="btn-add" onclick="agregarAlPedido(${index})" ${estaAgotado ? 'disabled' : ''}>
-                                ${estaAgotado ? 'Agotado' : '+ Añadir'}
-                            </button>
-                        </div>
-                    </div>
-                `;
+                                    <div class="selector-group">
+                                        <label for="color-${index}">Color:</label>
+                                        <select id="color-${index}" class="select-custom" ${estaAgotado ? 'disabled' : ''}>
+                                        </select>
+                                    </div>
+                                </div>
 
-                contenedor.appendChild(card);
+                                <div class="card-footer">
+                                    <div class="precio">S/ <span id="precio-${index}">${precioInicial}</span></div>
+                                    <button id="btn-add-${index}" class="btn-add" onclick="agregarAlPedido(${index})" ${estaAgotado ? 'disabled' : ''}>
+                                        ${estaAgotado ? 'Agotado' : '+ Añadir'}
+                                    </button>
+                                </div>
+                            </div>
+                        `;
 
-                // Inicializar colores y precios según la primera talla seleccionada
-                if (listaTallas.length > 0) {
-                    actualizarSegunTalla(index);
+                        contenedor.appendChild(card);
+                        actualizarSegunTalla(index);
+                    });
                 } else {
-                    renderizarColoresPorTalla(index, 'ÚNICA');
+                    contenedor.innerHTML = '<div class="no-products">No hay productos disponibles por el momento.</div>';
                 }
-            });
-        } else {
-            contenedor.innerHTML = '<div class="no-products">No hay productos disponibles por el momento.</div>';
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+                const contenedor = document.getElementById('contenedor-productos');
+                if (contenedor) {
+                    contenedor.innerHTML = '<div class="no-products">Ocurrió un error al cargar el catálogo.</div>';
+                }
+            }
         }
-    } catch (error) {
-        console.error('Error al cargar productos:', error);
-        const contenedor = document.getElementById('contenedor-productos');
-        if (contenedor) {
-            contenedor.innerHTML = '<div class="no-products">Ocurrió un error al cargar el catálogo.</div>';
-        }
-    }
-}
 
         function agregarAlPedido(index) {
             const prod = productosCache[index];
             const selectTalla = document.getElementById(`talla-${index}`);
+            const selectColor = document.getElementById(`color-${index}`);
+            
             const tallaSeleccionada = selectTalla ? selectTalla.value : 'Única';
+            const colorSeleccionado = selectColor ? selectColor.value : 'Estándar';
 
-            const precioActual = (prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) 
-                ? prod.precios_talla[tallaSeleccionada] 
-                : prod.PRECIO;
+            const precioActual = prod.PRECIO || "24.00";
 
-            const existente = carrito.find(item => item.NOMBRE === prod.NOMBRE && item.talla === tallaSeleccionada);
+            const existente = carrito.find(item => item.NOMBRE === prod.NOMBRE && item.talla === tallaSeleccionada && item.color === colorSeleccionado);
 
             if (existente) {
                 existente.cantidad = (existente.cantidad || 1) + 1;
@@ -846,7 +661,7 @@
                     NOMBRE: prod.NOMBRE,
                     PRECIO: precioActual,
                     talla: tallaSeleccionada,
-                    coloresTexto: prod.COLOR || 'A consultar',
+                    color: colorSeleccionado,
                     cantidad: 1
                 });
             }
@@ -894,7 +709,7 @@
                         div.innerHTML = `
                             <div style="flex: 1; text-align: left;">
                                 <strong style="font-size: 0.85rem; color: #333; display: block;">${item.NOMBRE}</strong>
-                                <small style="color: #e91e63;">S/ ${subtotal.toFixed(2)} (${item.talla || 'Única'})</small>
+                                <small style="color: #e91e63;">S/ ${subtotal.toFixed(2)} | Talla: ${item.talla} | Color: ${item.color}</small>
                             </div>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <button onclick="cambiarCantidad(${index}, -1)" style="background:#e0e0e0; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-weight:bold;">-</button>
@@ -911,7 +726,6 @@
             }
         }
 
-        /* MANEJO DE MODAL */
         function abrirModalDatos() {
             document.getElementById('modalDatos').style.display = 'flex';
         }
@@ -920,7 +734,6 @@
             document.getElementById('modalDatos').style.display = 'none';
         }
 
-        /* ENVÍO CON DATOS DEL CLIENTE A WHATSAPP */
         function enviarPedidoWhatsApp() {
             const nombre = document.getElementById('clienteNombre').value.trim();
             const direccion = document.getElementById('clienteDireccion').value.trim();
@@ -943,12 +756,12 @@
                 total += subtotal;
                 mensaje += `${idx + 1}. *${prod.NOMBRE}* (x${cant})\n`;
                 mensaje += `   - Talla: ${prod.talla}\n`;
-                mensaje += `   - Colores en catálogo: ${prod.coloresTexto}\n`;
+                mensaje += `   - Color: ${prod.color}\n`;
                 mensaje += `   - Precio unitario: S/ ${precio.toFixed(2)}\n\n`;
             });
 
             mensaje += `*Total estimado:* S/ ${total.toFixed(2)}\n\n`;
-            mensaje += `¿Me confirman disponibilidad de colores para coordinar el pago y envío? 💖`;
+            mensaje += `¿Me confirman disponibilidad para coordinar el pago y envío? 💖`;
 
             const url = `https://wa.me/51923705687?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
@@ -1006,25 +819,25 @@
        style="position: fixed; bottom: 80px; left: 15px; background-color: #25d366; color: white; padding: 10px 15px; border-radius: 50px; text-decoration: none; z-index: 1000; display: flex; align-items: center; gap: 8px;">
         💬 ¿Tiene dudas?
     </a>
-<!-- Modal / Visor de imagen en pantalla completa -->
-<div id="modal-imagen" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center;" onclick="cerrarVisor()">
-    <img id="img-ampliada" src="" style="max-width:90%; max-height:85%; border-radius:8px; object-fit:contain;">
-</div>
 
-<script>
-// Función para abrir la imagen al hacer clic
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.tagName === 'IMG' && e.target.closest('.card')) {
-        const modal = document.getElementById('modal-imagen');
-        const imgAmpliada = document.getElementById('img-ampliada');
-        imgAmpliada.src = e.target.src;
-        modal.style.display = 'flex';
+    <!-- Modal / Visor de imagen en pantalla completa -->
+    <div id="modal-imagen" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center;" onclick="cerrarVisor()">
+        <img id="img-ampliada" src="" style="max-width:90%; max-height:85%; border-radius:8px; object-fit:contain;">
+    </div>
+
+    <script>
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.tagName === 'IMG' && e.target.closest('.card-img-wrapper')) {
+            const modal = document.getElementById('modal-imagen');
+            const imgAmpliada = document.getElementById('img-ampliada');
+            imgAmpliada.src = e.target.src;
+            modal.style.display = 'flex';
+        }
+    });
+
+    function cerrarVisor() {
+        document.getElementById('modal-imagen').style.display = 'none';
     }
-});
-
-function cerrarVisor() {
-    document.getElementById('modal-imagen').style.display = 'none';
-}
-</script>
+    </script>
 </body>
 </html>

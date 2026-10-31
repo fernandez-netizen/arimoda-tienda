@@ -639,9 +639,11 @@
                         const estaAgotado = stockGlobalFlag === 'NO';
                         card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
 
-                        const urlImagen = prod.URL_IMAGEN && prod.URL_IMAGEN.trim() !== ''
-                            ? prod.URL_IMAGEN
-                            : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+                       let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
+
+urlImagen = urlImagen.trim() !== '' 
+    ? urlImagen.trim() 
+    : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 
                         const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
 

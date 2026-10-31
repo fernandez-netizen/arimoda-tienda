@@ -439,32 +439,51 @@
     .brand-title { font-size: 1.8rem; }
     .color-sidebar-text { max-height: 200px; }
 
-    /* Forzar 3 productos por fila en móviles */
+    /* 2 columnas bien proporcionadas para móvil */
     .grid-productos {
         display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 6px !important;
-        padding: 4px !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        padding: 6px !important;
     }
 
-    /* Ajustar tarjetas e imágenes para vista compacta */
+    /* Tarjetas compactas */
     .grid-productos .card {
-        padding: 4px !important;
+        padding: 8px !important;
+        overflow: hidden !important;
     }
 
+    /* Imagen proporcional */
     .grid-productos .card img {
-        height: 120px !important;
+        height: 140px !important;
         object-fit: cover !important;
+        width: 100% !important;
     }
 
+    /* Ajustar textos para evitar desbordes */
     .grid-productos .card h3,
     .grid-productos .card .titulo {
-        font-size: 11px !important;
+        font-size: 12px !important;
         line-height: 1.2 !important;
+        margin: 4px 0 !important;
     }
 
-    .grid-productos .card .precio {
-        font-size: 12px !important;
+    /* Ocultar la descripción larga solo en la vista miniatura */
+    .grid-productos .card p {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important; /* Muestra máximo 2 líneas de texto */
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        font-size: 10px !important;
+        margin: 2px 0 !important;
+    }
+
+    /* Ajustar botones de color/talla para que no salgan de la tarjeta */
+    .grid-productos .card select,
+    .grid-productos .card button {
+        font-size: 10px !important;
+        padding: 4px !important;
+        max-width: 100% !important;
     }
 }
         

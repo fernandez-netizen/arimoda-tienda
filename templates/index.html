@@ -737,20 +737,23 @@
                         const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : (prod.STOCK ? prod.STOCK.trim().toUpperCase() : 'SI');
                         const estaAgotado = stockGlobalFlag === 'NO';
                         card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
+// 1. Obtener el enlace guardado en la celda de Google Sheets
 let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
 urlImagen = urlImagen.trim();
 
 if (urlImagen) {
+    // Asegurar que tenga protocolo https://
     if (!urlImagen.startsWith('http://') && !urlImagen.startsWith('https://')) {
         urlImagen = 'https://' + urlImagen;
     }
-    
-    // Si la imagen es de ImgBB, la pasamos por el proxy
-    if (urlImagen.includes('ibb.co')) {
+
+    // 2. Si la imagen NO proviene de tu propio servidor (Render), 
+    // la enviamos a través del proxy para romper el bloqueo del operador celular.
+    if (!urlImagen.includes('arimoda-tienda.onrender.com')) {
         urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
     }
-    // Si es de Postimages o tu propio servidor, SE USA DIRECTA sin proxy
 } else {
+    // 3. Imagen de repuesto en caso de estar vacía la casilla
     urlImagen = 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 }
                         const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';

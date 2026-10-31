@@ -638,19 +638,13 @@
                         const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : (prod.STOCK ? prod.STOCK.trim().toUpperCase() : 'SI');
                         const estaAgotado = stockGlobalFlag === 'NO';
                         card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
-
-                     // 1. Detectar el campo de la URL
+// 1. Detectar el campo de la URL
 let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
 urlImagen = urlImagen.trim();
 
-// 2. Si el enlace viene de ImgBB en formato visor (ej. ibb.co/XYZ)...
+// 2. Si el enlace viene de ImgBB y es un enlace de visor (ibb.co/...), usamos el proxy de imágenes
 if (urlImagen.includes('ibb.co/') && !urlImagen.includes('i.ibb.co/')) {
-    // Extraer el código alfanumérico final del enlace
-    const partes = urlImagen.split('/');
-    const codigoImagen = partes[partes.length - 1] || partes[partes.length - 2];
-    
-    // Convertir automáticamente a enlace de imagen directo
-    urlImagen = `https://i.ibb.co/${codigoImagen}/foto.jpg`;
+    urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
 }
 
 // 3. Si la casilla estaba vacía, asignar la imagen por defecto

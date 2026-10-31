@@ -439,51 +439,58 @@
     .brand-title { font-size: 1.8rem; }
     .color-sidebar-text { max-height: 200px; }
 
-    /* 2 columnas bien proporcionadas para móvil */
+    /* Cuadrícula de 2 columnas optimizada */
     .grid-productos {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 8px !important;
-        padding: 6px !important;
+        padding: 4px !important;
     }
 
-    /* Tarjetas compactas */
+    /* Tarjeta compacta */
     .grid-productos .card {
-        padding: 8px !important;
+        padding: 6px !important;
         overflow: hidden !important;
+        box-sizing: border-box !important;
     }
 
-    /* Imagen proporcional */
+    /* Imagen responsiva */
     .grid-productos .card img {
-        height: 140px !important;
+        height: 150px !important;
         object-fit: cover !important;
         width: 100% !important;
+        cursor: pointer; /* Indica que la imagen es clicable */
     }
 
-    /* Ajustar textos para evitar desbordes */
+    /* Títulos y textos sin recortes horizontales */
     .grid-productos .card h3,
     .grid-productos .card .titulo {
-        font-size: 12px !important;
-        line-height: 1.2 !important;
+        font-size: 13px !important;
         margin: 4px 0 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
     }
 
-    /* Ocultar la descripción larga solo en la vista miniatura */
-    .grid-productos .card p {
-        display: -webkit-box !important;
-        -webkit-line-clamp: 2 !important; /* Muestra máximo 2 líneas de texto */
-        -webkit-box-orient: vertical !important;
-        overflow: hidden !important;
-        font-size: 10px !important;
-        margin: 2px 0 !important;
-    }
-
-    /* Ajustar botones de color/talla para que no salgan de la tarjeta */
+    /* Ajuste de listas de colores/tallas para evitar desbordes laterales */
+    .grid-productos .card .colores-container,
+    .grid-productos .card .tallas-container,
     .grid-productos .card select,
     .grid-productos .card button {
-        font-size: 10px !important;
-        padding: 4px !important;
         max-width: 100% !important;
+        font-size: 10px !important;
+        padding: 2px 4px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Opciones de color apiladas ordenadamente */
+    .grid-productos .card .color-btn,
+    .grid-productos .card .tag-color {
+        font-size: 9px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: block !important;
+        margin-bottom: 2px !important;
     }
 }
         
@@ -732,7 +739,7 @@ if (urlImagen) {
                                 
                                 ${listaTallas.length > 0 ? `
                                     <div class="selector-group">
-                                        <label for="talla-${index}">Seleccionar Talla:</label>
+                                        <label for="talla-${index}">Talla:</label>
                                         <select id="talla-${index}" class="select-custom" onchange="actualizarSegunTalla(${index})" ${estaAgotado ? 'disabled' : ''}>
                                             ${opcionesTalla}
                                         </select>
@@ -968,6 +975,25 @@ if (urlImagen) {
        style="position: fixed; bottom: 80px; left: 15px; background-color: #25d366; color: white; padding: 10px 15px; border-radius: 50px; text-decoration: none; z-index: 1000; display: flex; align-items: center; gap: 8px;">
         💬 ¿Tiene dudas?
     </a>
+<!-- Modal / Visor de imagen en pantalla completa -->
+<div id="modal-imagen" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center;" onclick="cerrarVisor()">
+    <img id="img-ampliada" src="" style="max-width:90%; max-height:85%; border-radius:8px; object-fit:contain;">
+</div>
 
+<script>
+// Función para abrir la imagen al hacer clic
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.tagName === 'IMG' && e.target.closest('.card')) {
+        const modal = document.getElementById('modal-imagen');
+        const imgAmpliada = document.getElementById('img-ampliada');
+        imgAmpliada.src = e.target.src;
+        modal.style.display = 'flex';
+    }
+});
+
+function cerrarVisor() {
+    document.getElementById('modal-imagen').style.display = 'none';
+}
+</script>
 </body>
 </html>

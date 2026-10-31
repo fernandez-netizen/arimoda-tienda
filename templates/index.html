@@ -691,23 +691,20 @@
                         const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : (prod.STOCK ? prod.STOCK.trim().toUpperCase() : 'SI');
                         const estaAgotado = stockGlobalFlag === 'NO';
                         card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
-// 1. Obtener el enlace de la celda de Google Sheets
 let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
 urlImagen = urlImagen.trim();
 
-// 2. Aplicar Proxy CDN a todas las imágenes externas
 if (urlImagen) {
-    // Si la URL no tiene protocolo, agregar https://
     if (!urlImagen.startsWith('http://') && !urlImagen.startsWith('https://')) {
         urlImagen = 'https://' + urlImagen;
     }
     
-    // Si es una imagen externa (no alojada en tu propio dominio), la pasamos por el proxy
-    if (!urlImagen.includes('arimoda-tienda.onrender.com')) {
-        urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen) + '&default=https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+    // Si la imagen es de ImgBB, la pasamos por el proxy
+    if (urlImagen.includes('ibb.co')) {
+        urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
     }
+    // Si es de Postimages o tu propio servidor, SE USA DIRECTA sin proxy
 } else {
-    // 3. Imagen por defecto si la celda está vacía
     urlImagen = 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 }
                         const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';

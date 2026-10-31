@@ -688,12 +688,18 @@
 let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
 urlImagen = urlImagen.trim();
 
-// 2. Si el enlace viene de ImgBB y es un enlace de visor (ibb.co/...), usamos el proxy de imágenes
-if (urlImagen.includes('ibb.co/') && !urlImagen.includes('i.ibb.co/')) {
-    urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
+// 2. Procesar imágenes de ImgBB
+if (urlImagen.includes('ibb.co/')) {
+    // Si es un enlace directo puro de ImgBB (i.ibb.co), se usa directamente
+    if (urlImagen.includes('i.ibb.co/')) {
+        // Enlace directo válido
+    } else {
+        // Si pegaste un enlace de página de ImgBB (ibb.co/...), usamos el proxy
+        urlImagen = 'https://images.weserv.nl/?url=' + encodeURIComponent(urlImagen);
+    }
 }
 
-// 3. Si la casilla estaba vacía, asignar la imagen por defecto
+// 3. Imagen de respaldo si el campo está vacío
 if (!urlImagen) {
     urlImagen = 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 }

@@ -843,39 +843,40 @@ function actualizarBarraCarrito() {
         }
     });
 
-    // Mensaje dinámico cuando no hay coincidencias
-    let msgSinResultados = document.getElementById('no-resultados-msg');
-    if (encontrados === 0) {
-        if (!msgSinResultados) {
-            msgSinResultados = document.createElement('div');
-            msgSinResultados.id = 'no-resultados-msg';
-            msgSinResultados.style.padding = '2rem 1rem';
-            msgSinResultados.style.fontWeight = '600';
-            msgSinResultados.style.textAlign = 'center';
-            msgSinResultados.style.color = 'var(--text-dark)';
-            msgSinResultados.style.gridColumn = '1 / -1';
-            msgSinResultados.innerHTML = 'Lo sentimos, no contamos con ese producto, pero eche un vistazo a todo lo que tenemos para usted 💖';
-            document.getElementById('contenedor-productos').appendChild(msgSinResultados);
+   // Mensaje dinámico cuando no hay coincidencias
+        let msgSinResultados = document.getElementById('no-resultados-msg');
+        if (encontrados === 0) {
+            if (!msgSinResultados) {
+                msgSinResultados = document.createElement('div');
+                msgSinResultados.id = 'no-resultados-msg';
+                msgSinResultados.style.padding = '2rem 1rem';
+                msgSinResultados.style.fontWeight = '600';
+                msgSinResultados.style.textAlign = 'center';
+                msgSinResultados.style.color = 'var(--text-dark)';
+                msgSinResultados.style.gridColumn = '1 / -1';
+                msgSinResultados.innerHTML = 'Lo sentimos, no contamos con ese producto.';
+                document.getElementById('contenedor-productos').appendChild(msgSinResultados);
+            } else {
+                msgSinResultados.style.display = 'block';
+            }
         } else {
-            msgSinResultados.style.display = 'block';
-        }
-    } else {
-        if (msgSinResultados) {
-            msgSinResultados.style.display = 'none';
+            if (msgSinResultados) {
+                msgSinResultados.style.display = 'none';
+            }
         }
     }
-}
 
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarProductos();
-        });
-    </script>
+    document.addEventListener("DOMContentLoaded", () => {
+        cargarProductos();
+    });
+</script>
 
-    <a href="https://wa.me/51923705687?text=Hola%20Arimoda!%20Tengo%20una%20consulta"
-       target="_blank"
-       style="position: fixed; bottom: 80px; left: 15px; background-color: #25d366; color: white; padding: 10px 15px; border-radius: 50px; text-decoration: none; z-index: 1000;">
-        💬 ¿Tiene dudas?
-    </a>
+<a href="https://wa.me/51923705687?text=Hola%20Arimoda!%20Tengo%20una%20consulta"
+   target="_blank"
+   style="position: fixed; bottom: 80px; left: 15px; background-color: #25d366; color: white; padding: 10px 15px; border-radius: 50px; text-decoration: none; z-index: 1000; display: flex; align-items: center; gap: 8px;">
+    💬 ¿Tiene dudas?
+</a>
 
 </body>
 </html>
+ 

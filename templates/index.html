@@ -444,7 +444,7 @@
     </style>
 </head>
 <body>
-<header>
+    <header>
         <div class="brand-title">
             <span class="i-heart">I</span><span class="heart-icon">♥</span>ARIMODA
         </div>
@@ -464,7 +464,6 @@
     <div style="background: var(--brand-pink); color: white; text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;">
         📦 Envíos a todo el Perú y más. | 💖 Garantía de calidad en cada prenda
     </div>
-    </header>
 
     <div class="container">
         <div style="margin-bottom: 1.2rem; text-align: center;">
@@ -478,29 +477,26 @@
         </div>
     </div>
 
-    
-<!-- BARRA Y PANEL INFERIOR UNIFICADO -->
-
-<!-- BARRA Y PANEL INFERIOR UNIFICADO -->
-<div id="cartBar" class="cart-bar" style="display: none; position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; background: #ffffff; border: 2px solid #e91e63; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); z-index: 999; flex-direction: column; overflow: hidden;">
-    
-    <!-- DETALLE DE PRODUCTOS CON BOTÓN PARA ELIMINAR 🗑️ -->
-    <div id="lista-carrito" style="max-height: 180px; overflow-y: auto; padding: 10px 15px; border-bottom: 1px solid #eee; background: #fafafa;">
-        <!-- Se llena dinámicamente con las prendas agregadas -->
-    </div>
-
-    <!-- PIE DE BARRA CON TOTAL Y BOTÓN DE WHATSAPP -->
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: #fff; gap: 10px;">
-        <div>
-            <span id="cartCount" style="font-weight: bold; color: #e91e63; display: block; font-size: 0.85rem;">0 prenda(s)</span>
-            <span id="cartTotal" style="font-weight: bold; color: #333; font-size: 1rem;">Total: S/ 0.00</span>
+    <!-- BARRA Y PANEL INFERIOR UNIFICADO -->
+    <div id="cartBar" class="cart-bar" style="display: none; position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; background: #ffffff; border: 2px solid #e91e63; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); z-index: 999; flex-direction: column; overflow: hidden;">
+        <!-- DETALLE DE PRODUCTOS CON BOTÓN PARA ELIMINAR 🗑️ -->
+        <div id="lista-carrito" style="max-height: 180px; overflow-y: auto; padding: 10px 15px; border-bottom: 1px solid #eee; background: #fafafa;">
+            <!-- Se llena dinámicamente con las prendas agregadas -->
         </div>
-        
-        <button onclick="abrirModalDatos()" style="background: #25d366; color: white; border: none; padding: 10px 14px; border-radius: 20px; font-weight: bold; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-            Pedir por WhatsApp 📱
-        </button>
+
+        <!-- PIE DE BARRA CON TOTAL Y BOTÓN DE WHATSAPP -->
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: #fff; gap: 10px;">
+            <div>
+                <span id="cartCount" style="font-weight: bold; color: #e91e63; display: block; font-size: 0.85rem;">0 prenda(s)</span>
+                <span id="cartTotal" style="font-weight: bold; color: #333; font-size: 1rem;">Total: S/ 0.00</span>
+            </div>
+            
+            <button onclick="abrirModalDatos()" style="background: #25d366; color: white; border: none; padding: 10px 14px; border-radius: 20px; font-weight: bold; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                Pedir por WhatsApp 📱
+            </button>
+        </div>
     </div>
-</div>
+
     <!-- MODAL DE DATOS DEL CLIENTE -->
     <div class="modal-overlay" id="modalDatos">
         <div class="modal-content">
@@ -593,7 +589,6 @@
                     stockTotalParaTalla += stock;
                     const sinStock = stock === 0;
                     
-                    // AVISO VISUAL DE STOCK BAJO (5 o menos unidades)
                     let badgeStock = `<span class="stock-badge">(${stock})</span>`;
                     if (stock > 0 && stock <= 5) {
                         badgeStock = `<span class="stock-badge stock-bajo" style="background:#fff3cd; color:#856404; border:1px solid #ffeeba;">⚡ ¡Quedan ${stock}!</span>`;
@@ -624,167 +619,200 @@
                 }
             }
         }
-async function cargarProductos() {
-    try {
-        const respuesta = await fetch('/api/productos');
-        const datos = await respuesta.json();
 
-        const contenedor = document.getElementById('contenedor-productos');
-        if (!contenedor) return;
-        contenedor.innerHTML = '';
+        async function cargarProductos() {
+            try {
+                const respuesta = await fetch('/api/productos');
+                const datos = await respuesta.json();
 
-        if (datos.status === 'success' && datos.productos && datos.productos.length > 0) {
-            productosCache = datos.productos;
+                const contenedor = document.getElementById('contenedor-productos');
+                if (!contenedor) return;
+                contenedor.innerHTML = '';
 
-            datos.productos.forEach((prod, index) => {
-                const card = document.createElement('div');
-                card.className = 'card';
+                if (datos.status === 'success' && datos.productos && datos.productos.length > 0) {
+                    productosCache = datos.productos;
 
-                const urlImagen = prod.URL_IMAGEN && prod.URL_IMAGEN.trim() !== ''
-                    ? prod.URL_IMAGEN
-                    : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+                    datos.productos.forEach((prod, index) => {
+                        const card = document.createElement('div');
+                        
+                        const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : (prod.STOCK ? prod.STOCK.trim().toUpperCase() : 'SI');
+                        const estaAgotado = stockGlobalFlag === 'NO';
+                        card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
 
-                const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
+                        const urlImagen = prod.URL_IMAGEN && prod.URL_IMAGEN.trim() !== ''
+                            ? prod.URL_IMAGEN
+                            : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
 
-                // 1. Obtención de la lista de tallas limpias (ej. ['L', 'M'])
-                const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 
-                    ? prod.tallas_lista 
-                    : (prod.TALLAS ? prod.TALLAS.split(',') : []);
+                        const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
 
-                // 2. Generación del HTML para el select de tallas
-                const opcionesTalla = listaTallas.map(talla => 
-                    `<option value="${talla.trim()}">${talla.trim()}</option>`
-                ).join('');
+                        const listaTallas = prod.tallas_lista && prod.tallas_lista.length > 0 
+                            ? prod.tallas_lista 
+                            : (prod.TALLAS ? prod.TALLAS.split(',') : []);
 
-                // 3. Verificación de stock
-                const stockGlobalFlag = prod.ESTOCK ? prod.ESTOCK.trim().toUpperCase() : 'SI';
-                const estaAgotado = stockGlobalFlag === 'NO';
+                        const opcionesTalla = listaTallas.map(talla => 
+                            `<option value="${talla.trim()}">${talla.trim()}</option>`
+                        ).join('');
 
-                // 4. Construcción dinámica del contenido de la tarjeta
-                card.innerHTML = `
-                    <img src="${urlImagen}" alt="${prod.NOMBRE}">
-                    <h3>${prod.NOMBRE}</h3>
-                    <p class="descripcion">${descripcion}</p>
-                    <p class="precio">S/ ${parseFloat(prod.PRECIO || 0).toFixed(2)}</p>
-                    
-                    ${listaTallas.length > 0 ? `
-                        <div class="selector-talla">
-                            <label for="talla-${index}">Talla:</label>
-                            <select id="talla-${index}" ${estaAgotado ? 'disabled' : ''}>
-                                ${opcionesTalla}
-                            </select>
-                        </div>
-                    ` : ''}
+                        const precioInicial = prod.PRECIO ? parseFloat(prod.PRECIO).toFixed(2) : "0.00";
 
-                    <div class="estado-stock">
-                        ${estaAgotado 
-                            ? '<span class="agotado" style="color:red; font-weight:bold;">Agotado</span>' 
-                            : '<span class="disponible" style="color:green;">En Stock</span>'}
-                    </div>
-                `;
+                        card.innerHTML = `
+                            ${estaAgotado ? '<div class="badge-agotado-overlay">Agotado</div>' : ''}
+                            <div class="card-main-content">
+                                <div class="card-img-wrapper">
+                                    <img src="${urlImagen}" alt="${prod.NOMBRE}" class="card-img">
+                                </div>
+                                <div class="color-sidebar-text" id="sidebar-colores-${index}">
+                                    <div class="color-sidebar-title">Colores:</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <h3 class="card-title">${prod.NOMBRE}</h3>
+                                <p class="card-detalles">${descripcion}</p>
+                                
+                                ${listaTallas.length > 0 ? `
+                                    <div class="selector-group">
+                                        <label for="talla-${index}">Seleccionar Talla:</label>
+                                        <select id="talla-${index}" class="select-custom" onchange="actualizarSegunTalla(${index})" ${estaAgotado ? 'disabled' : ''}>
+                                            ${opcionesTalla}
+                                        </select>
+                                    </div>
+                                ` : ''}
 
-                // 5. Se añade la tarjeta renderizada al contenedor
-                contenedor.appendChild(card);
-            });
-        } else {
-            contenedor.innerHTML = '<p>No hay productos disponibles por el momento.</p>';
+                                <div class="card-footer">
+                                    <div class="precio">S/ <span id="precio-${index}">${precioInicial}</span></div>
+                                    <button id="btn-add-${index}" class="btn-add" onclick="agregarAlPedido(${index})" ${estaAgotado ? 'disabled' : ''}>
+                                        ${estaAgotado ? 'Agotado' : '+ Añadir'}
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+
+                        contenedor.appendChild(card);
+
+                        // Inicializar colores y precio segun la primera talla seleccionada
+                        if (listaTallas.length > 0) {
+                            actualizarSegunTalla(index);
+                        } else {
+                            renderizarColoresPorTalla(index, 'ÚNICA');
+                        }
+                    });
+                } else {
+                    contenedor.innerHTML = '<div class="no-products">No hay productos disponibles por el momento.</div>';
+                }
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+                const contenedor = document.getElementById('contenedor-productos');
+                if (contenedor) {
+                    contenedor.innerHTML = '<div class="no-products">Ocurrió un error al cargar el catálogo.</div>';
+                }
+            }
         }
-    } catch (error) {
-        console.error('Error al cargar productos:', error);
-        const contenedor = document.getElementById('contenedor-productos');
-        if (contenedor) {
-            contenedor.innerHTML = '<p>Ocurrió un error al cargar el catálogo.</p>';
+
+        function actualizarSegunTalla(index) {
+            const selectElement = document.getElementById(`talla-${index}`);
+            if (!selectElement) return;
+            const tallaSeleccionada = selectElement.value;
+            
+            actualizarPrecioPorTalla(index, tallaSeleccionada);
+            renderizarColoresPorTalla(index, tallaSeleccionada);
         }
-    }
-}
-function actualizarPrecioPorTalla(index, tallaSeleccionada) {
-    const prod = productosCache[index];
-    const elPrecio = document.getElementById(`precio-${index}`);
-    
-    if (prod && prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) {
-        elPrecio.textContent = parseFloat(prod.precios_talla[tallaSeleccionada]).toFixed(2);
-    } else if (prod && prod.PRECIO) {
-        elPrecio.textContent = parseFloat(prod.PRECIO).toFixed(2);
-    }
-}
+
+        function actualizarPrecioPorTalla(index, tallaSeleccionada) {
+            const prod = productosCache[index];
+            const elPrecio = document.getElementById(`precio-${index}`);
+            if (!elPrecio) return;
+            
+            if (prod && prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) {
+                elPrecio.textContent = parseFloat(prod.precios_talla[tallaSeleccionada]).toFixed(2);
+            } else if (prod && prod.PRECIO) {
+                elPrecio.textContent = parseFloat(prod.PRECIO).toFixed(2);
+            }
+        }
+
         function agregarAlPedido(index) {
-          const prod = productosCache[index];
-    const tallaSeleccionada = document.getElementById(`talla-${index}`).value;
+            const prod = productosCache[index];
+            const selectTalla = document.getElementById(`talla-${index}`);
+            const tallaSeleccionada = selectTalla ? selectTalla.value : 'Única';
 
-    // Verificar si el producto con la misma talla ya existe en el carrito
-    const existente = carrito.find(item => item.NOMBRE === prod.NOMBRE && item.talla === tallaSeleccionada);
+            const precioActual = (prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) 
+                ? prod.precios_talla[tallaSeleccionada] 
+                : prod.PRECIO;
 
-    if (existente) {
-        existente.cantidad = (existente.cantidad || 1) + 1;
-    } else {
-        carrito.push({
-    NOMBRE: prod.NOMBRE,
-    PRECIO: (prod.precios_talla && prod.precios_talla[tallaSeleccionada] !== undefined) 
-            ? prod.precios_talla[tallaSeleccionada] 
-            : prod.PRECIO,
-    talla: tallaSeleccionada,
-    coloresTexto: prod.COLOR || 'A consultar',
-    cantidad: 1
-});
-    
-    actualizarBarraCarrito();  
+            const existente = carrito.find(item => item.NOMBRE === prod.NOMBRE && item.talla === tallaSeleccionada);
+
+            if (existente) {
+                existente.cantidad = (existente.cantidad || 1) + 1;
+            } else {
+                carrito.push({
+                    NOMBRE: prod.NOMBRE,
+                    PRECIO: precioActual,
+                    talla: tallaSeleccionada,
+                    coloresTexto: prod.COLOR || 'A consultar',
+                    cantidad: 1
+                });
+            }
+            
+            actualizarBarraCarrito();  
         }
-  function cambiarCantidad(index, cambio) {
-    if (carrito[index]) {
-        carrito[index].cantidad = (carrito[index].cantidad || 1) + cambio;
-        if (carrito[index].cantidad <= 0) {
+
+        function cambiarCantidad(index, cambio) {
+            if (carrito[index]) {
+                carrito[index].cantidad = (carrito[index].cantidad || 1) + cambio;
+                if (carrito[index].cantidad <= 0) {
+                    carrito.splice(index, 1);
+                }
+            }
+            actualizarBarraCarrito();
+        }
+
+        function eliminarDelCarrito(index) {
             carrito.splice(index, 1);
+            actualizarBarraCarrito();
         }
-    }
-    actualizarBarraCarrito();
-}
 
-function eliminarDelCarrito(index) {
-    carrito.splice(index, 1);
-    actualizarBarraCarrito();
-}
+        function actualizarBarraCarrito() {
+            const cartBar = document.getElementById('cartBar');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+            const listaCarrito = document.getElementById('lista-carrito');
 
-function actualizarBarraCarrito() {
-    const cartBar = document.getElementById('cartBar');
-    const cartCount = document.getElementById('cartCount');
-    const cartTotal = document.getElementById('cartTotal');
-    const listaCarrito = document.getElementById('lista-carrito');
+            const cantidadTotal = carrito.reduce((suma, item) => suma + (item.cantidad || 1), 0);
+            const total = carrito.reduce((suma, item) => suma + (parseFloat(item.PRECIO || 0) * (item.cantidad || 1)), 0);
 
-    const cantidadTotal = carrito.reduce((suma, item) => suma + (item.cantidad || 1), 0);
-    const total = carrito.reduce((suma, item) => suma + (parseFloat(item.PRECIO || 0) * (item.cantidad || 1)), 0);
+            if (carrito.length > 0) {
+                if (cartBar) cartBar.style.display = 'flex';
+                if (cartCount) cartCount.textContent = `${cantidadTotal} prenda(s)`;
+                if (cartTotal) cartTotal.textContent = `Total: S/ ${total.toFixed(2)}`;
 
-    if (carrito.length > 0) {
-        if (cartBar) cartBar.style.display = 'flex';
-        if (cartCount) cartCount.textContent = `${cantidadTotal} prenda(s)`;
-        if (cartTotal) cartTotal.textContent = `Total: S/ ${total.toFixed(2)}`;
-
-        if (listaCarrito) {
-            listaCarrito.innerHTML = '';
-            carrito.forEach((item, index) => {
-                const cant = item.cantidad || 1;
-                const subtotal = parseFloat(item.PRECIO || 0) * cant;
-                
-                const div = document.createElement('div');
-                div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed #ddd;';
-                div.innerHTML = `
-                    <div style="flex: 1; text-align: left;">
-                        <strong style="font-size: 0.85rem; color: #333; display: block;">${item.NOMBRE}</strong>
-                        <small style="color: #e91e63;">S/ ${subtotal.toFixed(2)} (${item.talla || 'Única'})</small>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 4px;">
-                        <button onclick="cambiarCantidad(${index}, -1)" style="background:#e0e0e0; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-weight:bold;">-</button>
-                        <span style="font-size: 0.85rem; font-weight: bold;">${cant}</span>
-                        <button onclick="cambiarCantidad(${index}, 1)" style="background:#e0e0e0; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-weight:bold;">+</button>
-                        <button onclick="eliminarDelCarrito(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size:1.1rem; margin-left:4px;" title="Eliminar">🗑️</button>
-                    </div>
-                `;
-                listaCarrito.appendChild(div);
-            });
+                if (listaCarrito) {
+                    listaCarrito.innerHTML = '';
+                    carrito.forEach((item, index) => {
+                        const cant = item.cantidad || 1;
+                        const subtotal = parseFloat(item.PRECIO || 0) * cant;
+                        
+                        const div = document.createElement('div');
+                        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed #ddd;';
+                        div.innerHTML = `
+                            <div style="flex: 1; text-align: left;">
+                                <strong style="font-size: 0.85rem; color: #333; display: block;">${item.NOMBRE}</strong>
+                                <small style="color: #e91e63;">S/ ${subtotal.toFixed(2)} (${item.talla || 'Única'})</small>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <button onclick="cambiarCantidad(${index}, -1)" style="background:#e0e0e0; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-weight:bold;">-</button>
+                                <span style="font-size: 0.85rem; font-weight: bold;">${cant}</span>
+                                <button onclick="cambiarCantidad(${index}, 1)" style="background:#e0e0e0; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-weight:bold;">+</button>
+                                <button onclick="eliminarDelCarrito(${index})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; font-size:1.1rem; margin-left:4px;" title="Eliminar">🗑️</button>
+                            </div>
+                        `;
+                        listaCarrito.appendChild(div);
+                    });
+                }
+            } else {
+                if (cartBar) cartBar.style.display = 'none';
+            }
         }
-    } else {
-        if (cartBar) cartBar.style.display = 'none';
-    }
-}
+
         /* MANEJO DE MODAL */
         function abrirModalDatos() {
             document.getElementById('modalDatos').style.display = 'flex';
@@ -795,7 +823,7 @@ function actualizarBarraCarrito() {
         }
 
         /* ENVÍO CON DATOS DEL CLIENTE A WHATSAPP */
-       function enviarPedidoWhatsApp() {
+        function enviarPedidoWhatsApp() {
             const nombre = document.getElementById('clienteNombre').value.trim();
             const direccion = document.getElementById('clienteDireccion').value.trim();
 
@@ -811,12 +839,14 @@ function actualizarBarraCarrito() {
 
             let total = 0;
             carrito.forEach((prod, idx) => {
+                const cant = prod.cantidad || 1;
                 const precio = parseFloat(prod.PRECIO || 0);
-                total += precio;
-                mensaje += `${idx + 1}. *${prod.NOMBRE}*\n`;
+                const subtotal = precio * cant;
+                total += subtotal;
+                mensaje += `${idx + 1}. *${prod.NOMBRE}* (x${cant})\n`;
                 mensaje += `   - Talla: ${prod.talla}\n`;
                 mensaje += `   - Colores en catálogo: ${prod.coloresTexto}\n`;
-                mensaje += `   - Precio: S/ ${precio.toFixed(2)}\n\n`;
+                mensaje += `   - Precio unitario: S/ ${precio.toFixed(2)}\n\n`;
             });
 
             mensaje += `*Total estimado:* S/ ${total.toFixed(2)}\n\n`;
@@ -826,57 +856,58 @@ function actualizarBarraCarrito() {
             window.open(url, '_blank');
             cerrarModalDatos();
         }
-      function filtrarProductos() {
-    const textoBusqueda = document.getElementById('buscador').value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const tarjetas = document.querySelectorAll('.card');
-    let encontrados = 0;
 
-    productosCache.forEach((prod, index) => {
-        const nombre = (prod.NOMBRE || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        const descripcion = (prod.DESCRIPCION || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        function filtrarProductos() {
+            const textoBusqueda = document.getElementById('buscador').value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const tarjetas = document.querySelectorAll('.card');
+            let encontrados = 0;
 
-        if (nombre.includes(textoBusqueda) || descripcion.includes(textoBusqueda)) {
-            tarjetas[index].style.display = 'flex';
-            encontrados++;
-        } else {
-            tarjetas[index].style.display = 'none';
-        }
-    });
+            productosCache.forEach((prod, index) => {
+                const nombre = (prod.NOMBRE || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const descripcion = (prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-   // Mensaje dinámico cuando no hay coincidencias
-        let msgSinResultados = document.getElementById('no-resultados-msg');
-        if (encontrados === 0) {
-            if (!msgSinResultados) {
-                msgSinResultados = document.createElement('div');
-                msgSinResultados.id = 'no-resultados-msg';
-                msgSinResultados.style.padding = '2rem 1rem';
-                msgSinResultados.style.fontWeight = '600';
-                msgSinResultados.style.textAlign = 'center';
-                msgSinResultados.style.color = 'var(--text-dark)';
-                msgSinResultados.style.gridColumn = '1 / -1';
-                msgSinResultados.innerHTML = 'Lo sentimos, no contamos con ese producto.';
-                document.getElementById('contenedor-productos').appendChild(msgSinResultados);
+                if (tarjetas[index]) {
+                    if (nombre.includes(textoBusqueda) || descripcion.includes(textoBusqueda)) {
+                        tarjetas[index].style.display = 'flex';
+                        encontrados++;
+                    } else {
+                        tarjetas[index].style.display = 'none';
+                    }
+                }
+            });
+
+            let msgSinResultados = document.getElementById('no-resultados-msg');
+            if (encontrados === 0) {
+                if (!msgSinResultados) {
+                    msgSinResultados = document.createElement('div');
+                    msgSinResultados.id = 'no-resultados-msg';
+                    msgSinResultados.style.padding = '2rem 1rem';
+                    msgSinResultados.style.fontWeight = '600';
+                    msgSinResultados.style.textAlign = 'center';
+                    msgSinResultados.style.color = 'var(--text-dark)';
+                    msgSinResultados.style.gridColumn = '1 / -1';
+                    msgSinResultados.innerHTML = 'Lo sentimos, no contamos con ese producto.';
+                    document.getElementById('contenedor-productos').appendChild(msgSinResultados);
+                } else {
+                    msgSinResultados.style.display = 'block';
+                }
             } else {
-                msgSinResultados.style.display = 'block';
-            }
-        } else {
-            if (msgSinResultados) {
-                msgSinResultados.style.display = 'none';
+                if (msgSinResultados) {
+                    msgSinResultados.style.display = 'none';
+                }
             }
         }
-    }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        cargarProductos();
-    });
-</script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarProductos();
+        });
+    </script>
 
-<a href="https://wa.me/51923705687?text=Hola%20Arimoda!%20Tengo%20una%20consulta"
-   target="_blank"
-   style="position: fixed; bottom: 80px; left: 15px; background-color: #25d366; color: white; padding: 10px 15px; border-radius: 50px; text-decoration: none; z-index: 1000; display: flex; align-items: center; gap: 8px;">
-    💬 ¿Tiene dudas?
-</a>
+    <a href="https://wa.me/51923705687?text=Hola%20Arimoda!%20Tengo%20una%20consulta"
+       target="_blank"
+       style="position: fixed; bottom: 80px; left: 15px; background-color: #25d366; color: white; padding: 10px 15px; border-radius: 50px; text-decoration: none; z-index: 1000; display: flex; align-items: center; gap: 8px;">
+        💬 ¿Tiene dudas?
+    </a>
 
 </body>
 </html>
- 

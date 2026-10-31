@@ -7,7 +7,7 @@ import requests
 app = Flask(__name__)
 
 # URL del CSV publicado de tu Google Sheets
-SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4g6V4e2s2x8bK9W0J0R7g9J6Q0y5L-9W0e2s2x8bK9W0/pub?output=csv"
+SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQsVyRa9IeaRLCbkeaCGcGL_lOfDbv5kp7SiJNDfIl6mrz5Kz-VaH7LdejqqDop6h1kIE44XNGDMnvE/pub?output=csv"
 
 
 def procesar_tallas_precios(cadena_tallas):

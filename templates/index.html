@@ -639,11 +639,24 @@
                         const estaAgotado = stockGlobalFlag === 'NO';
                         card.className = `card ${estaAgotado ? 'agotado-total' : ''}`;
 
-                       let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
+                     // 1. Detectar el campo de la URL
+let urlImagen = prod.URL_IMAGEN || prod.url_imagen || prod.Imagen || prod.IMAGEN || prod.Foto || '';
+urlImagen = urlImagen.trim();
 
-urlImagen = urlImagen.trim() !== '' 
-    ? urlImagen.trim() 
-    : 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+// 2. Si el enlace viene de ImgBB en formato visor (ej. ibb.co/XYZ)...
+if (urlImagen.includes('ibb.co/') && !urlImagen.includes('i.ibb.co/')) {
+    // Extraer el código alfanumérico final del enlace
+    const partes = urlImagen.split('/');
+    const codigoImagen = partes[partes.length - 1] || partes[partes.length - 2];
+    
+    // Convertir automáticamente a enlace de imagen directo
+    urlImagen = `https://i.ibb.co/${codigoImagen}/foto.jpg`;
+}
+
+// 3. Si la casilla estaba vacía, asignar la imagen por defecto
+if (!urlImagen) {
+    urlImagen = 'https://via.placeholder.com/400x500/fbf8f3/008be3?text=Arimoda';
+}
 
                         const descripcion = prod["DESCRIPCIÓN"] || prod["DESCRIPCION"] || '';
 
